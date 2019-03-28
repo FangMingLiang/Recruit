@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mingliang.recruit.mapper.CompanyMapper" >
+  <resultMap id="BaseResultMap" type="com.mingliang.recruit.model.Company" >
+    <id column="CompanyId" property="companyid" jdbcType="VARCHAR" />
+    <result column="CompanyPassword" property="companypassword" jdbcType="VARCHAR" />
+    <result column="CompanyName" property="companyname" jdbcType="VARCHAR" />
+    <result column="CompanyLogo" property="companylogo" jdbcType="VARCHAR" />
+    <result column="CompanyLicense" property="companylicense" jdbcType="VARCHAR" />
+    <result column="CompanyWebsite" property="companywebsite" jdbcType="VARCHAR" />
+    <result column="CompanyCity" property="companycity" jdbcType="VARCHAR" />
+    <result column="CompanyIndustry" property="companyindustry" jdbcType="VARCHAR" />
+    <result column="CompanyScale" property="companyscale" jdbcType="VARCHAR" />
+    <result column="CompanyProfile" property="companyprofile" jdbcType="VARCHAR" />
+    <result column="EstablishDate" property="establishdate" jdbcType="TIMESTAMP" />
+    <result column="CheckSign" property="checksign" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CompanyId, CompanyPassword, CompanyName, CompanyLogo, CompanyLicense, CompanyWebsite, 
+    CompanyCity, CompanyIndustry, CompanyScale, CompanyProfile, EstablishDate, CheckSign
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from company
+    where CompanyId = #{companyid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from company
+    where CompanyId = #{companyid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mingliang.recruit.model.Company" >
+    insert into company (CompanyId, CompanyPassword, CompanyName, 
+      CompanyLogo, CompanyLicense, CompanyWebsite, 
+      CompanyCity, CompanyIndustry, CompanyScale, 
+      CompanyProfile, EstablishDate, CheckSign
+      )
+    values (#{companyid,jdbcType=VARCHAR}, #{companypassword,jdbcType=VARCHAR}, #{companyname,jdbcType=VARCHAR}, 
+      #{companylogo,jdbcType=VARCHAR}, #{companylicense,jdbcType=VARCHAR}, #{companywebsite,jdbcType=VARCHAR}, 
+      #{companycity,jdbcType=VARCHAR}, #{companyindustry,jdbcType=VARCHAR}, #{companyscale,jdbcType=VARCHAR}, 
+      #{companyprofile,jdbcType=VARCHAR}, #{establishdate,jdbcType=TIMESTAMP}, #{checksign,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mingliang.recruit.model.Company" >
+    insert into company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="companyid != null" >
+        CompanyId,
+      </if>
+      <if test="companypassword != null" >
+        CompanyPassword,
+      </if>
+      <if test="companyname != null" >
+        CompanyName,
+      </if>
+      <if test="companylogo != null" >
+        CompanyLogo,
+      </if>
+      <if test="companylicense != null" >
+        CompanyLicense,
+      </if>
+      <if test="companywebsite != null" >
+        CompanyWebsite,
+      </if>
+      <if test="companycity != null" >
+        CompanyCity,
+      </if>
+      <if test="companyindustry != null" >
+        CompanyIndustry,
+      </if>
+      <if test="companyscale != null" >
+        CompanyScale,
+      </if>
+      <if test="companyprofile != null" >
+        CompanyProfile,
+      </if>
+      <if test="establishdate != null" >
+        EstablishDate,
+      </if>
+      <if test="checksign != null" >
+        CheckSign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyid != null" >
+        #{companyid,jdbcType=VARCHAR},
+      </if>
+      <if test="companypassword != null" >
+        #{companypassword,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null" >
+        #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="companylogo != null" >
+        #{companylogo,jdbcType=VARCHAR},
+      </if>
+      <if test="companylicense != null" >
+        #{companylicense,jdbcType=VARCHAR},
+      </if>
+      <if test="companywebsite != null" >
+        #{companywebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="companycity != null" >
+        #{companycity,jdbcType=VARCHAR},
+      </if>
+      <if test="companyindustry != null" >
+        #{companyindustry,jdbcType=VARCHAR},
+      </if>
+      <if test="companyscale != null" >
+        #{companyscale,jdbcType=VARCHAR},
+      </if>
+      <if test="companyprofile != null" >
+        #{companyprofile,jdbcType=VARCHAR},
+      </if>
+      <if test="establishdate != null" >
+        #{establishdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checksign != null" >
+        #{checksign,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mingliang.recruit.model.Company" >
+    update company
+    <set >
+      <if test="companypassword != null" >
+        CompanyPassword = #{companypassword,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null" >
+        CompanyName = #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="companylogo != null" >
+        CompanyLogo = #{companylogo,jdbcType=VARCHAR},
+      </if>
+      <if test="companylicense != null" >
+        CompanyLicense = #{companylicense,jdbcType=VARCHAR},
+      </if>
+      <if test="companywebsite != null" >
+        CompanyWebsite = #{companywebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="companycity != null" >
+        CompanyCity = #{companycity,jdbcType=VARCHAR},
+      </if>
+      <if test="companyindustry != null" >
+        CompanyIndustry = #{companyindustry,jdbcType=VARCHAR},
+      </if>
+      <if test="companyscale != null" >
+        CompanyScale = #{companyscale,jdbcType=VARCHAR},
+      </if>
+      <if test="companyprofile != null" >
+        CompanyProfile = #{companyprofile,jdbcType=VARCHAR},
+      </if>
+      <if test="establishdate != null" >
+        EstablishDate = #{establishdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checksign != null" >
+        CheckSign = #{checksign,jdbcType=BIT},
+      </if>
+    </set>
+    where CompanyId = #{companyid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mingliang.recruit.model.Company" >
+    update company
+    set CompanyPassword = #{companypassword,jdbcType=VARCHAR},
+      CompanyName = #{companyname,jdbcType=VARCHAR},
+      CompanyLogo = #{companylogo,jdbcType=VARCHAR},
+      CompanyLicense = #{companylicense,jdbcType=VARCHAR},
+      CompanyWebsite = #{companywebsite,jdbcType=VARCHAR},
+      CompanyCity = #{companycity,jdbcType=VARCHAR},
+      CompanyIndustry = #{companyindustry,jdbcType=VARCHAR},
+      CompanyScale = #{companyscale,jdbcType=VARCHAR},
+      CompanyProfile = #{companyprofile,jdbcType=VARCHAR},
+      EstablishDate = #{establishdate,jdbcType=TIMESTAMP},
+      CheckSign = #{checksign,jdbcType=BIT}
+    where CompanyId = #{companyid,jdbcType=VARCHAR}
+  </update>
+  <!--property为pojo的属性，column是数据库属性-->
+  <resultMap id="positionMap" type="com.mingliang.recruit.model.Company">
+    <id property="companyid" column="CompanyId"/>
+    <result property="companypassword" column="CompanyPassword"/>
+    <result property="companyname" column="CompanyName"/>
+    <result property="companylogo" column="CompanyLogo"/>
+    <result property="companylicense" column="CompanyLicense"/>
+    <result property="companywebsite" column="CompanyWebsite"/>
+    <result property="companycity" column="CompanyCity"/>
+    <result property="companyindustry" column="CompanyIndustry"/>
+    <result property="companyscale" column="CompanyScale"/>
+    <result property="companyprofile" column="CompanyProfile"/>
+    <result property="establishdate" column="EstablishDate"/>
+    <result property="checksign" column="CheckSign"/>
+    <collection property="positions" ofType="com.mingliang.recruit.model.Position">
+      <id property="positionid" column="positionId"/>
+      <result property="companyid" column="CompanyId"/>
+      <result property="positiontype" column="positionType"/>
+      <result property="positionname" column="positionName"/>
+      <result property="department" column="department"/>
+      <result property="jobnature" column="jobNature"/>
+      <result property="salary" column="salary"/>
+      <result property="workaddress1" column="workAddress1"/>
+      <result property="experience" column="experience"/>
+      <result property="education" column="education"/>
+      <result property="positionadvantage" column="positionAdvantage"/>
+      <result property="positiondetail" column="positionDetail"/>
+      <result property="positionaddress" column="positionAddress"/>
+      <result property="sign" column="sign"/>
+    </collection>
+  </resultMap>
+  <select id="selectpositionById" resultMap="positionMap" parameterType="java.lang.String">
+    SELECT
+        c.*,
+        p.*
+        FROM
+        company c, companyposition p
+        WHERE
+        c.CompanyId=p.companyid
+        and
+        c.CompanyId=#{id}
+    </select>
+</mapper>

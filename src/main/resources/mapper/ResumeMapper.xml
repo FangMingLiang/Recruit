@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mingliang.recruit.mapper.ResumeMapper" >
+  <resultMap id="BaseResultMap" type="com.mingliang.recruit.model.Resume" >
+    <id column="CandidateId" property="candidateid" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Sex" property="sex" jdbcType="VARCHAR" />
+    <result column="Portrait" property="portrait" jdbcType="VARCHAR" />
+    <result column="BirthDate" property="birthdate" jdbcType="TIMESTAMP" />
+    <result column="PhoneNumber" property="phonenumber" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="Education" property="education" jdbcType="VARCHAR" />
+    <result column="ExpectedCity" property="expectedcity" jdbcType="VARCHAR" />
+    <result column="ExpectedPosition" property="expectedposition" jdbcType="VARCHAR" />
+    <result column="ExpectedPositionType" property="expectedpositiontype" jdbcType="VARCHAR" />
+    <result column="ExpectedSalary" property="expectedsalary" jdbcType="VARCHAR" />
+    <result column="School" property="school" jdbcType="VARCHAR" />
+    <result column="Major" property="major" jdbcType="VARCHAR" />
+    <result column="JobCompanyName" property="jobcompanyname" jdbcType="VARCHAR" />
+    <result column="JobName" property="jobname" jdbcType="VARCHAR" />
+    <result column="JobFirstDate" property="jobfirstdate" jdbcType="TIMESTAMP" />
+    <result column="JobLastDate" property="joblastdate" jdbcType="TIMESTAMP" />
+    <result column="ProjectName" property="projectname" jdbcType="VARCHAR" />
+    <result column="ProjectdOnselfDescribe" property="projectdonselfdescribe" jdbcType="VARCHAR" />
+    <result column="ProjectFirstDate" property="projectfirstdate" jdbcType="TIMESTAMP" />
+    <result column="ProjectLastDate" property="projectlastdate" jdbcType="TIMESTAMP" />
+    <result column="ProjectWholeDescribe" property="projectwholedescribe" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.mingliang.recruit.model.Resume" extends="BaseResultMap" >
+    <result column="SelfAppraisal" property="selfappraisal" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CandidateId, Name, Sex, Portrait, BirthDate, PhoneNumber, Email, Education, ExpectedCity, 
+    ExpectedPosition, ExpectedPositionType, ExpectedSalary, School, Major, JobCompanyName, 
+    JobName, JobFirstDate, JobLastDate, ProjectName, ProjectdOnselfDescribe, ProjectFirstDate, 
+    ProjectLastDate, ProjectWholeDescribe
+  </sql>
+  <sql id="Blob_Column_List" >
+    SelfAppraisal
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from resume
+    where CandidateId = #{candidateid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from resume
+    where CandidateId = #{candidateid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mingliang.recruit.model.Resume" >
+    insert into resume (CandidateId, Name, Sex, 
+      Portrait, BirthDate, PhoneNumber, 
+      Email, Education, ExpectedCity, 
+      ExpectedPosition, ExpectedPositionType, 
+      ExpectedSalary, School, Major, 
+      JobCompanyName, JobName, JobFirstDate, 
+      JobLastDate, ProjectName, ProjectdOnselfDescribe, 
+      ProjectFirstDate, ProjectLastDate, 
+      ProjectWholeDescribe, SelfAppraisal
+      )
+    values (#{candidateid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{portrait,jdbcType=VARCHAR}, #{birthdate,jdbcType=TIMESTAMP}, #{phonenumber,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{expectedcity,jdbcType=VARCHAR}, 
+      #{expectedposition,jdbcType=VARCHAR}, #{expectedpositiontype,jdbcType=VARCHAR}, 
+      #{expectedsalary,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
+      #{jobcompanyname,jdbcType=VARCHAR}, #{jobname,jdbcType=VARCHAR}, #{jobfirstdate,jdbcType=TIMESTAMP}, 
+      #{joblastdate,jdbcType=TIMESTAMP}, #{projectname,jdbcType=VARCHAR}, #{projectdonselfdescribe,jdbcType=VARCHAR}, 
+      #{projectfirstdate,jdbcType=TIMESTAMP}, #{projectlastdate,jdbcType=TIMESTAMP}, 
+      #{projectwholedescribe,jdbcType=VARCHAR}, #{selfappraisal,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mingliang.recruit.model.Resume" >
+    insert into resume
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="candidateid != null" >
+        CandidateId,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="sex != null" >
+        Sex,
+      </if>
+      <if test="portrait != null" >
+        Portrait,
+      </if>
+      <if test="birthdate != null" >
+        BirthDate,
+      </if>
+      <if test="phonenumber != null" >
+        PhoneNumber,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="education != null" >
+        Education,
+      </if>
+      <if test="expectedcity != null" >
+        ExpectedCity,
+      </if>
+      <if test="expectedposition != null" >
+        ExpectedPosition,
+      </if>
+      <if test="expectedpositiontype != null" >
+        ExpectedPositionType,
+      </if>
+      <if test="expectedsalary != null" >
+        ExpectedSalary,
+      </if>
+      <if test="school != null" >
+        School,
+      </if>
+      <if test="major != null" >
+        Major,
+      </if>
+      <if test="jobcompanyname != null" >
+        JobCompanyName,
+      </if>
+      <if test="jobname != null" >
+        JobName,
+      </if>
+      <if test="jobfirstdate != null" >
+        JobFirstDate,
+      </if>
+      <if test="joblastdate != null" >
+        JobLastDate,
+      </if>
+      <if test="projectname != null" >
+        ProjectName,
+      </if>
+      <if test="projectdonselfdescribe != null" >
+        ProjectdOnselfDescribe,
+      </if>
+      <if test="projectfirstdate != null" >
+        ProjectFirstDate,
+      </if>
+      <if test="projectlastdate != null" >
+        ProjectLastDate,
+      </if>
+      <if test="projectwholedescribe != null" >
+        ProjectWholeDescribe,
+      </if>
+      <if test="selfappraisal != null" >
+        SelfAppraisal,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="candidateid != null" >
+        #{candidateid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="portrait != null" >
+        #{portrait,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null" >
+        #{birthdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phonenumber != null" >
+        #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedcity != null" >
+        #{expectedcity,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedposition != null" >
+        #{expectedposition,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedpositiontype != null" >
+        #{expectedpositiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedsalary != null" >
+        #{expectedsalary,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="jobcompanyname != null" >
+        #{jobcompanyname,jdbcType=VARCHAR},
+      </if>
+      <if test="jobname != null" >
+        #{jobname,jdbcType=VARCHAR},
+      </if>
+      <if test="jobfirstdate != null" >
+        #{jobfirstdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joblastdate != null" >
+        #{joblastdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectname != null" >
+        #{projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="projectdonselfdescribe != null" >
+        #{projectdonselfdescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="projectfirstdate != null" >
+        #{projectfirstdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectlastdate != null" >
+        #{projectlastdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectwholedescribe != null" >
+        #{projectwholedescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="selfappraisal != null" >
+        #{selfappraisal,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mingliang.recruit.model.Resume" >
+    update resume
+    <set >
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        Sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="portrait != null" >
+        Portrait = #{portrait,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null" >
+        BirthDate = #{birthdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phonenumber != null" >
+        PhoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        Education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedcity != null" >
+        ExpectedCity = #{expectedcity,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedposition != null" >
+        ExpectedPosition = #{expectedposition,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedpositiontype != null" >
+        ExpectedPositionType = #{expectedpositiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedsalary != null" >
+        ExpectedSalary = #{expectedsalary,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        School = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        Major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="jobcompanyname != null" >
+        JobCompanyName = #{jobcompanyname,jdbcType=VARCHAR},
+      </if>
+      <if test="jobname != null" >
+        JobName = #{jobname,jdbcType=VARCHAR},
+      </if>
+      <if test="jobfirstdate != null" >
+        JobFirstDate = #{jobfirstdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joblastdate != null" >
+        JobLastDate = #{joblastdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectname != null" >
+        ProjectName = #{projectname,jdbcType=VARCHAR},
+      </if>
+      <if test="projectdonselfdescribe != null" >
+        ProjectdOnselfDescribe = #{projectdonselfdescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="projectfirstdate != null" >
+        ProjectFirstDate = #{projectfirstdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectlastdate != null" >
+        ProjectLastDate = #{projectlastdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectwholedescribe != null" >
+        ProjectWholeDescribe = #{projectwholedescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="selfappraisal != null" >
+        SelfAppraisal = #{selfappraisal,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where CandidateId = #{candidateid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mingliang.recruit.model.Resume" >
+    update resume
+    set Name = #{name,jdbcType=VARCHAR},
+      Sex = #{sex,jdbcType=VARCHAR},
+      Portrait = #{portrait,jdbcType=VARCHAR},
+      BirthDate = #{birthdate,jdbcType=TIMESTAMP},
+      PhoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      Education = #{education,jdbcType=VARCHAR},
+      ExpectedCity = #{expectedcity,jdbcType=VARCHAR},
+      ExpectedPosition = #{expectedposition,jdbcType=VARCHAR},
+      ExpectedPositionType = #{expectedpositiontype,jdbcType=VARCHAR},
+      ExpectedSalary = #{expectedsalary,jdbcType=VARCHAR},
+      School = #{school,jdbcType=VARCHAR},
+      Major = #{major,jdbcType=VARCHAR},
+      JobCompanyName = #{jobcompanyname,jdbcType=VARCHAR},
+      JobName = #{jobname,jdbcType=VARCHAR},
+      JobFirstDate = #{jobfirstdate,jdbcType=TIMESTAMP},
+      JobLastDate = #{joblastdate,jdbcType=TIMESTAMP},
+      ProjectName = #{projectname,jdbcType=VARCHAR},
+      ProjectdOnselfDescribe = #{projectdonselfdescribe,jdbcType=VARCHAR},
+      ProjectFirstDate = #{projectfirstdate,jdbcType=TIMESTAMP},
+      ProjectLastDate = #{projectlastdate,jdbcType=TIMESTAMP},
+      ProjectWholeDescribe = #{projectwholedescribe,jdbcType=VARCHAR},
+      SelfAppraisal = #{selfappraisal,jdbcType=LONGVARCHAR}
+    where CandidateId = #{candidateid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mingliang.recruit.model.Resume" >
+    update resume
+    set Name = #{name,jdbcType=VARCHAR},
+      Sex = #{sex,jdbcType=VARCHAR},
+      Portrait = #{portrait,jdbcType=VARCHAR},
+      BirthDate = #{birthdate,jdbcType=TIMESTAMP},
+      PhoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      Education = #{education,jdbcType=VARCHAR},
+      ExpectedCity = #{expectedcity,jdbcType=VARCHAR},
+      ExpectedPosition = #{expectedposition,jdbcType=VARCHAR},
+      ExpectedPositionType = #{expectedpositiontype,jdbcType=VARCHAR},
+      ExpectedSalary = #{expectedsalary,jdbcType=VARCHAR},
+      School = #{school,jdbcType=VARCHAR},
+      Major = #{major,jdbcType=VARCHAR},
+      JobCompanyName = #{jobcompanyname,jdbcType=VARCHAR},
+      JobName = #{jobname,jdbcType=VARCHAR},
+      JobFirstDate = #{jobfirstdate,jdbcType=TIMESTAMP},
+      JobLastDate = #{joblastdate,jdbcType=TIMESTAMP},
+      ProjectName = #{projectname,jdbcType=VARCHAR},
+      ProjectdOnselfDescribe = #{projectdonselfdescribe,jdbcType=VARCHAR},
+      ProjectFirstDate = #{projectfirstdate,jdbcType=TIMESTAMP},
+      ProjectLastDate = #{projectlastdate,jdbcType=TIMESTAMP},
+      ProjectWholeDescribe = #{projectwholedescribe,jdbcType=VARCHAR}
+    where CandidateId = #{candidateid,jdbcType=VARCHAR}
+  </update>
+</mapper>

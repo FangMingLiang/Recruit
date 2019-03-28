@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/ml_recruit
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.jdbc.Driver
+  resources:
+    static-locations: classpath:static/,file:static/upload/
+  thymeleaf:
+    #prefix: classpath:/templates/
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false #关闭缓存
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.mingliang.recruit.model

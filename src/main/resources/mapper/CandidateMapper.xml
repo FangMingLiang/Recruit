@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mingliang.recruit.mapper.CandidateMapper" >
+  <resultMap id="BaseResultMap" type="com.mingliang.recruit.model.Candidate" >
+    <id column="Candidate_Id" property="candidateId" jdbcType="VARCHAR" />
+    <result column="Candidates_Password" property="candidatesPassword" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Candidate_Id, Candidates_Password
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from candidate
+    where Candidate_Id = #{candidateId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from candidate
+    where Candidate_Id = #{candidateId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mingliang.recruit.model.Candidate" >
+    insert into candidate (Candidate_Id, Candidates_Password)
+    values (#{candidateId,jdbcType=VARCHAR}, #{candidatesPassword,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mingliang.recruit.model.Candidate" >
+    insert into candidate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="candidateId != null" >
+        Candidate_Id,
+      </if>
+      <if test="candidatesPassword != null" >
+        Candidates_Password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="candidateId != null" >
+        #{candidateId,jdbcType=VARCHAR},
+      </if>
+      <if test="candidatesPassword != null" >
+        #{candidatesPassword,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mingliang.recruit.model.Candidate" >
+    update candidate
+    <set >
+      <if test="candidatesPassword != null" >
+        Candidates_Password = #{candidatesPassword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Candidate_Id = #{candidateId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mingliang.recruit.model.Candidate" >
+    update candidate
+    set Candidates_Password = #{candidatesPassword,jdbcType=VARCHAR}
+    where Candidate_Id = #{candidateId,jdbcType=VARCHAR}
+  </update>
+</mapper>

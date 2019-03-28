@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mingliang.recruit.mapper.PositionMapper" >
+  <resultMap id="BaseResultMap" type="com.mingliang.recruit.model.Position" >
+    <id column="positionId" property="positionid" jdbcType="INTEGER" />
+    <result column="CompanyId" property="companyid" jdbcType="VARCHAR" />
+    <result column="positionType" property="positiontype" jdbcType="VARCHAR" />
+    <result column="positionName" property="positionname" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="jobNature" property="jobnature" jdbcType="VARCHAR" />
+    <result column="salary" property="salary" jdbcType="VARCHAR" />
+    <result column="workAddress1" property="workaddress1" jdbcType="VARCHAR" />
+    <result column="experience" property="experience" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="positionAdvantage" property="positionadvantage" jdbcType="VARCHAR" />
+    <result column="positionDetail" property="positiondetail" jdbcType="VARCHAR" />
+    <result column="positionAddress" property="positionaddress" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    positionId, CompanyId, positionType, positionName, department, jobNature, salary, 
+    workAddress1, experience, education, positionAdvantage, positionDetail, positionAddress, 
+    sign
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from companyposition
+    where positionId = #{positionid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from companyposition
+    where positionId = #{positionid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mingliang.recruit.model.Position" >
+    insert into companyposition (positionId, CompanyId, positionType, 
+      positionName, department, jobNature, 
+      salary, workAddress1, experience, 
+      education, positionAdvantage, positionDetail, 
+      positionAddress, sign)
+    values (#{positionid,jdbcType=INTEGER}, #{companyid,jdbcType=VARCHAR}, #{positiontype,jdbcType=VARCHAR}, 
+      #{positionname,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{jobnature,jdbcType=VARCHAR}, 
+      #{salary,jdbcType=VARCHAR}, #{workaddress1,jdbcType=VARCHAR}, #{experience,jdbcType=VARCHAR}, 
+      #{education,jdbcType=VARCHAR}, #{positionadvantage,jdbcType=VARCHAR}, #{positiondetail,jdbcType=VARCHAR}, 
+      #{positionaddress,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mingliang.recruit.model.Position" >
+    insert into companyposition
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="positionid != null" >
+        positionId,
+      </if>
+      <if test="companyid != null" >
+        CompanyId,
+      </if>
+      <if test="positiontype != null" >
+        positionType,
+      </if>
+      <if test="positionname != null" >
+        positionName,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="jobnature != null" >
+        jobNature,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="workaddress1 != null" >
+        workAddress1,
+      </if>
+      <if test="experience != null" >
+        experience,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="positionadvantage != null" >
+        positionAdvantage,
+      </if>
+      <if test="positiondetail != null" >
+        positionDetail,
+      </if>
+      <if test="positionaddress != null" >
+        positionAddress,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="positionid != null" >
+        #{positionid,jdbcType=INTEGER},
+      </if>
+      <if test="companyid != null" >
+        #{companyid,jdbcType=VARCHAR},
+      </if>
+      <if test="positiontype != null" >
+        #{positiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="positionname != null" >
+        #{positionname,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="jobnature != null" >
+        #{jobnature,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        #{salary,jdbcType=VARCHAR},
+      </if>
+      <if test="workaddress1 != null" >
+        #{workaddress1,jdbcType=VARCHAR},
+      </if>
+      <if test="experience != null" >
+        #{experience,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="positionadvantage != null" >
+        #{positionadvantage,jdbcType=VARCHAR},
+      </if>
+      <if test="positiondetail != null" >
+        #{positiondetail,jdbcType=VARCHAR},
+      </if>
+      <if test="positionaddress != null" >
+        #{positionaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mingliang.recruit.model.Position" >
+    update companyposition
+    <set >
+      <if test="companyid != null" >
+        CompanyId = #{companyid,jdbcType=VARCHAR},
+      </if>
+      <if test="positiontype != null" >
+        positionType = #{positiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="positionname != null" >
+        positionName = #{positionname,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="jobnature != null" >
+        jobNature = #{jobnature,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        salary = #{salary,jdbcType=VARCHAR},
+      </if>
+      <if test="workaddress1 != null" >
+        workAddress1 = #{workaddress1,jdbcType=VARCHAR},
+      </if>
+      <if test="experience != null" >
+        experience = #{experience,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="positionadvantage != null" >
+        positionAdvantage = #{positionadvantage,jdbcType=VARCHAR},
+      </if>
+      <if test="positiondetail != null" >
+        positionDetail = #{positiondetail,jdbcType=VARCHAR},
+      </if>
+      <if test="positionaddress != null" >
+        positionAddress = #{positionaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where positionId = #{positionid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mingliang.recruit.model.Position" >
+    update companyposition
+    set CompanyId = #{companyid,jdbcType=VARCHAR},
+      positionType = #{positiontype,jdbcType=VARCHAR},
+      positionName = #{positionname,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      jobNature = #{jobnature,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=VARCHAR},
+      workAddress1 = #{workaddress1,jdbcType=VARCHAR},
+      experience = #{experience,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      positionAdvantage = #{positionadvantage,jdbcType=VARCHAR},
+      positionDetail = #{positiondetail,jdbcType=VARCHAR},
+      positionAddress = #{positionaddress,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR}
+    where positionId = #{positionid,jdbcType=INTEGER}
+  </update>
+</mapper>
