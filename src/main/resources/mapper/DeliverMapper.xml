@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mingliang.recruit.mapper.DeliverMapper" >
+  <resultMap id="BaseResultMap" type="com.mingliang.recruit.model.Deliver" >
+    <id column="deliverid" property="deliverid" jdbcType="INTEGER" />
+    <result column="candidateid" property="candidateid" jdbcType="VARCHAR" />
+    <result column="positionid" property="positionid" jdbcType="INTEGER" />
+    <result column="deliverdate" property="deliverdate" jdbcType="TIMESTAMP" />
+    <result column="resultsign" property="resultsign" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    deliverid, candidateid, positionid, deliverdate, resultsign
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from deliver
+    where deliverid = #{deliverid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from deliver
+    where deliverid = #{deliverid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mingliang.recruit.model.Deliver" >
+    insert into deliver (deliverid, candidateid, positionid, 
+      deliverdate, resultsign)
+    values (#{deliverid,jdbcType=INTEGER}, #{candidateid,jdbcType=VARCHAR}, #{positionid,jdbcType=INTEGER}, 
+      #{deliverdate,jdbcType=TIMESTAMP}, #{resultsign,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mingliang.recruit.model.Deliver" >
+    insert into deliver
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deliverid != null" >
+        deliverid,
+      </if>
+      <if test="candidateid != null" >
+        candidateid,
+      </if>
+      <if test="positionid != null" >
+        positionid,
+      </if>
+      <if test="deliverdate != null" >
+        deliverdate,
+      </if>
+      <if test="resultsign != null" >
+        resultsign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deliverid != null" >
+        #{deliverid,jdbcType=INTEGER},
+      </if>
+      <if test="candidateid != null" >
+        #{candidateid,jdbcType=VARCHAR},
+      </if>
+      <if test="positionid != null" >
+        #{positionid,jdbcType=INTEGER},
+      </if>
+      <if test="deliverdate != null" >
+        #{deliverdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultsign != null" >
+        #{resultsign,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mingliang.recruit.model.Deliver" >
+    update deliver
+    <set >
+      <if test="candidateid != null" >
+        candidateid = #{candidateid,jdbcType=VARCHAR},
+      </if>
+      <if test="positionid != null" >
+        positionid = #{positionid,jdbcType=INTEGER},
+      </if>
+      <if test="deliverdate != null" >
+        deliverdate = #{deliverdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultsign != null" >
+        resultsign = #{resultsign,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where deliverid = #{deliverid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mingliang.recruit.model.Deliver" >
+    update deliver
+    set candidateid = #{candidateid,jdbcType=VARCHAR},
+      positionid = #{positionid,jdbcType=INTEGER},
+      deliverdate = #{deliverdate,jdbcType=TIMESTAMP},
+      resultsign = #{resultsign,jdbcType=VARCHAR}
+    where deliverid = #{deliverid,jdbcType=INTEGER}
+  </update>
+  <resultMap id="positionlist" type="com.mingliang.recruit.model.Position">
+    <id property="positionid" column="positionId"/>
+    <result property="companyid" column="CompanyId"/>
+    <result property="positiontype" column="positionType"/>
+    <result property="positionname" column="positionName"/>
+    <result property="department" column="department"/>
+    <result property="jobnature" column="jobNature"/>
+    <result property="salary" column="salary"/>
+    <result property="workaddress1" column="workAddress1"/>
+    <result property="experience" column="experience"/>
+    <result property="education" column="education"/>
+    <result property="positionadvantage" column="positionAdvantage"/>
+    <result property="positiondetail" column="positionDetail"/>
+    <result property="positionaddress" column="positionAddress"/>
+    <result property="sign" column="sign"/>
+    <result property="createdate" column="createDate"/>
+    <result property="deliverdate" column="deliverdate"/>
+
+  </resultMap>
+  <select id="FindDeliverList" resultMap="positionlist" parameterType="java.lang.String">
+    SELECT
+	c.*,d.deliverdate
+FROM
+
+	deliver d,companyposition c
+WHERE
+	d.candidateid = #{id} and d.positionid=c.positionId
+    </select>
+
+  <select id="FindDeliverStatus" resultType="java.lang.Integer">
+	SELECT
+	 ifnull((SELECT
+	d.deliverid
+FROM
+
+	deliver d
+WHERE
+	d.candidateid = #{arg0} and d.positionid=#{arg1}),0) as status
+    </select>
+
+  <select id="FindCandidateByPositionId" resultMap="BaseResultMap">
+    select *
+from deliver
+where deliver.positionid=#{arg0} and deliver.resultsign=#{arg1}
+    </select>
+</mapper>

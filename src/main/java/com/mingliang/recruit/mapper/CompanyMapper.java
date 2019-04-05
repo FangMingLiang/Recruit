@@ -2,6 +2,8 @@ package com.mingliang.recruit.mapper;
 
 import com.mingliang.recruit.model.Company;
 
+import java.util.List;
+
 public interface CompanyMapper {
     int deleteByPrimaryKey(String companyid);
 
@@ -15,4 +17,5 @@ public interface CompanyMapper {
 
     int updateByPrimaryKey(Company record);
     Company selectpositionById(String companyid);
+    List<Company> SearchCompanyName(String companyName);
 }

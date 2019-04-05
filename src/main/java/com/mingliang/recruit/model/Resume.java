@@ -53,6 +53,7 @@ public class Resume {
 
     private String selfappraisal;
 
+
     public String getCandidateid() {
         return candidateid;
     }

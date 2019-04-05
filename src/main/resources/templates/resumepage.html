@@ -1,9 +1,8 @@
 ﻿<!DOCTYPE HTML>
 <html xmlns:wb="http://open.weibo.com/wb" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    </script>
-    <
-    script
+
+    <script
     type = "text/javascript"
     async = ""
     src = "/js/conversion.js" ></script>
@@ -56,23 +55,23 @@
                     <dd>
                         <div class="c_text_1">填写基本信息有助于企业对你的了解，请认真填写！</div>
                         <h3>姓名</h3> <!--非必填-->
-                        <input type="text" placeholder="请输入真实姓名" th:value="${name}" th:if="${not #strings.isEmpty(name)}"name="name" id="name" class="valid">
+                        <input type="text" placeholder="请输入真实姓名" th:value="${name}" name="name" id="name" class="valid">
                         <h3>性别</h3>
                         <input type="radio" name="sex" value="男" class="valid" th:checked="${sex eq '男'}">男
                         <input type="radio" name="sex" value="女" class="valid" th:checked="${sex eq '女'}">女
                         <h3>头像</h3>
                         <!--<input name="test" id="test" hidden="hidden" th:value="${portrait}" th:if="${not #strings.isEmpty(portrait)}"/>-->
-                        上传头像<input type="file" id="companyLogo" name="companyLogo" alt="上传头像图片" th:value="${portrait}" th:if="${not #strings.isEmpty(portrait)}"/>
+                        上传头像<input type="file" id="companyLogo" name="companyLogo" alt="上传头像图片" th:value="${portrait}" />
                         <h3>出生日期</h3>
-                        <input type="date" id="birthday" name="birthday" th:value="${birthdate}" th:if="${not #strings.isEmpty(birthdate)}">
+                        <input type="date" id="birthday" name="birthday" th:value="${birthdate}" >
                         <h3>联系电话</h3>
-                        <input type="text" maxlength="11" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入手机号码" name="phone" id="phone" th:value="${phone}" th:if="${not #strings.isEmpty(phone)}">
+                        <input type="text" maxlength="11" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入手机号码" name="phone" id="phone" th:value="${phone}" >
                         <h3>常用邮箱</h3>
-                        <input type="text" name="email" id="email" placeholder="请输入常用邮箱" th:value="${email}" th:if="${not #strings.isEmpty(email)}">
+                        <input type="text" name="email" id="email" placeholder="请输入常用邮箱" th:value="${email}" >
                         <h3>选择你的学历</h3>
                         <div>
-                            <input type="hidden" value="" name="select_scale_hidden" id="select_scale_hidden" th:value="${scale}" th:if="${not #strings.isEmpty(scale)}">
-                            <input type="button" value="请选择学历" id="select_scale" class="select" th:value="${scale}" th:if="${not #strings.isEmpty(scale)}">
+                            <input type="hidden" value="" name="select_scale_hidden" id="select_scale_hidden" th:value="${scale}" >
+                            <input type="button" value="请选择学历" id="select_scale" class="select" th:value="${scale}" >
                             <div class="dn" id="box_scale" style="display: none;">
                                 <ul class="reset">
                                     <li>大专</li>
@@ -89,17 +88,17 @@
                     </dt>
                     <dd>
                         <h3>期望城市</h3>
-                        <input type="text"placeholder="请输入期望城市" value="" name="city" id="city" th:value="${city}" th:if="${not #strings.isEmpty(city)}">
+                        <input type="text"placeholder="请输入期望城市" value="" name="city" id="city" th:value="${city}" >
                         <h3>工作类型</h3>
                         <input type="radio" name="type" value="全职" class="valid" th:checked="${type eq '全职'}">全职
                         <input type="radio" name="type" value="兼职" class="valid" th:checked="${type eq '兼职'}">兼职
                         <input type="radio" name="type" value="实习" class="valid" th:checked="${type eq '实习'}">实习
                         <h3>期望职位</h3>
-                        <input type="text"placeholder="请输入期望职位" value="" name="position" id="position" th:value="${position}" th:if="${not #strings.isEmpty(position)}">
+                        <input type="text"placeholder="请输入期望职位" value="" name="position" id="position" th:value="${position}" >
                         <h3>选择期望工资</h3>
                         <div>
-                            <input type="hidden" value="" name="select_salary_hidden" id="select_salary_hidden" th:value="${salary}" th:if="${not #strings.isEmpty(salary)}">
-                            <input type="button" value="请选择期望工资" id="select_salary" class="select" th:value="${salary}" th:if="${not #strings.isEmpty(salary)}">
+                            <input type="hidden" value="" name="select_salary_hidden" id="select_salary_hidden" th:value="${salary}" >
+                            <input type="button" value="请选择期望工资" id="select_salary" class="select" th:value="${salary}" >
                             <div class="dn" id="box_salary" style="display: none;">
                                 <ul class="reset">
                                     <li th:th:checked="${salary eq '2K以下'}">2K以下</li>
@@ -112,9 +111,9 @@
                             </div>
                         </div>
                         <h3>毕业学校</h3>
-                        <input type="text" placeholder="请输入毕业学校名称" value="" name="school" id="school" th:value="${school}" th:if="${not #strings.isEmpty(school)}">
+                        <input type="text" placeholder="请输入毕业学校名称" value="" name="school" id="school" th:value="${school}" >
                         <h3>所学专业</h3>
-                        <input type="text" placeholder="请输入所学专业，如：软件工程" name="major" id="major" th:value="${major}" th:if="${not #strings.isEmpty(major)}">
+                        <input type="text" placeholder="请输入所学专业，如：软件工程" name="major" id="major" th:value="${major}" >
                     </dd>
                     <dt>
                         <h2><em></em>工作经历</h2>
@@ -122,12 +121,12 @@
                     <dd>
                         <div class="c_text_1">工作经历最能体现自己的工作能力哦！</div>
                         <h3>公司名称</h3>
-                        <input type="text" placeholder="请输入公司名称，如：东方海外" name="company_name" id="company_name" th:value="${company_name}" th:if="${not #strings.isEmpty(company_name)}">
+                        <input type="text" placeholder="请输入公司名称，如：东方海外" name="company_name" id="company_name" th:value="${company_name}" >
                         <h3>所担任职位</h3>
-                        <input type="text" placeholder="职位名称，如：技术支持" name="job_name" id="job_name" th:value="${job_name}" th:if="${not #strings.isEmpty(job_name)}">
+                        <input type="text" placeholder="职位名称，如：技术支持" name="job_name" id="job_name" th:value="${job_name}">
                         <h3>工作时间</h3>
-                        开始时间：<input type="date" id="jobfirstdate" name="jobfirstdate" th:value="${jobfirstdate}" th:if="${not #strings.isEmpty(jobfirstdate)}">
-                        结束时间：<input type="date" id="joblastdate" name="joblastdate" th:value="${joblastdate}" th:if="${not #strings.isEmpty(joblastdate)}">
+                        开始时间：<input type="date" id="jobfirstdate" name="jobfirstdate" th:value="${jobfirstdate}" >
+                        结束时间：<input type="date" id="joblastdate" name="joblastdate" th:value="${joblastdate}" >
                     </dd>
                     <dt>
                         <h2><em></em>项目经验</h2>
@@ -136,22 +135,22 @@
                         <div class="c_text_1">项目经验是用人单位衡量人才能力的重要指标哦！<br>
                             来说说让你难忘的项目吧！ </div>
                         <h3>项目名称</h3>
-                        <input type="text" placeholder="请输入项目名称" name="project_name" id="project_name" th:value="${project_name}" th:if="${not #strings.isEmpty(project_name)}">
+                        <input type="text" placeholder="请输入项目名称" name="project_name" id="project_name" th:value="${project_name}" >
                         <h3>担任职务</h3>
-                        <input type="text" placeholder="请输入所担任的职务，如：产品负责人" name="project_describe_self" id="project_describe_self" th:value="${project_describe_self}" th:if="${not #strings.isEmpty(project_describe_self)}">
+                        <input type="text" placeholder="请输入所担任的职务，如：产品负责人" name="project_describe_self" id="project_describe_self" th:value="${project_describe_self}" >
                         <h3>项目过程时间段</h3>
-                        开始时间：<input type="date" id="projectfirstdate" name="projectfirstdate" th:value="${projectfirstdate}" th:if="${not #strings.isEmpty(projectfirstdate)}">
-                        结束时间：<input type="date" id="projectlastdate" name="projectlastdate" th:value="${projectlastdate}" th:if="${not #strings.isEmpty(projectlastdate)}">
+                        开始时间：<input type="date" id="projectfirstdate" name="projectfirstdate" th:value="${projectfirstdate}" >
+                        结束时间：<input type="date" id="projectlastdate" name="projectlastdate" th:value="${projectlastdate}" >
                         <h3>项目描述</h3>
                         <textarea placeholder="请描述项目所用到的技术等及特点" name="project_describe_all"
-                                  id="project_describe_all" th:text="${project_describe_all}" th:if="${not #strings.isEmpty(project_describe_all)}"></textarea>
+                                  id="project_describe_all" th:text="${project_describe_all}" ></textarea>
                     </dd>
                     <dt>
                         <h2><em></em>自我评价</h2>
                     </dt>
                         <div>
                             <textarea placeholder="描述你的性格、爱好以及吸引人的经历等，让企业了解多元化的你！
-让企业了解多元化的你！" name="companyProfile" id="companyProfile" th:text="${selfappraisal}" th:if="${not #strings.isEmpty(selfappraisal)}"></textarea>
+让企业了解多元化的你！" name="companyProfile" id="companyProfile" th:text="${selfappraisal}" ></textarea>
                         </div>
                         <span style="display:none;" class="error" id="beError"></span>
                         <input type="submit" value="保存简历" id="stepBtn" class="btn_big fr">

@@ -34,35 +34,53 @@
     <script type="text/javascript">
         var youdao_conv_id = 271546;
     </script>
+    <script type="text/javascript">
+        function goShow(positionid){
+            console.log(positionid);
+            // var messages = {
+            //     username: positionid
+            // };
+            $.ajax({
+                type: "post",
+                url: "/ShowPosition",
+                //
+                data:{
+                },
+                dataType: 'json',
+                contentType: 'application/json;charset=UTF-8',
+                success: function () {
+                },
+                error:function () {
+                  console.log("sb")
+                }
+            });
+        }
+    </script>
     <script src="/js/conv.js" type="text/javascript"></script>
     <script src="/js/ajaxCross.json" charset="UTF-8"></script>
 </head>
 <body>
 <div id="body">
-    <div id="header">
+    <div id="header" th:style="'display:' + @{((${session.usertype}eq '0') ? 'none' : 'block')} + ''">
         <div class="wrapper">
-            <a class="logo" href="index.html">
+            <a class="logo" href="">
                 <img width="229" height="43" alt="拉勾招聘-专注互联网招聘" src="/images/logo.png">
             </a>
             <ul id="navheader" class="reset">
                 <li class="current"><a href="">公司</a></li>
                 <li>
-                    <a rel="nofollow" href="">简历管理</a>
+                    <a rel="nofollow"  th:href="@{/CompanyShowDelivery(resultsign=0,type='resume')}">查收职位简历</a>
                 </li>
                 <li><a rel="nofollow" href="create">发布职位</a></li>
             </ul>
             <dl class="collapsible_menu">
                 <dt>
-                    <span>jason&nbsp;</span>
+                    <span th:text="${session.UserID}">jason&nbsp;</span>
                     <span class="red dn" id="noticeDot-1"></span>
                     <i></i>
                 </dt>
-                <dd><a href="positions.html">我发布的职位</a></dd>
-                <dd><a href="positions.html">我收到的简历</a></dd>
-                <dd class="btm"><a href="myhome.html">我的公司主页</a></dd>
-                <dd><a href="jianli.html">我要找工作</a></dd>
                 <dd><a href="accountBind.html">帐号设置</a></dd>
-                <dd class="logout"><a rel="nofollow" href="login.html">退出</a></dd>
+                <dd class="logout"><a rel="nofollow" href="Logout">退出</a></dd>
             </dl>
         </div>
     </div><!-- end #header -->
@@ -191,15 +209,21 @@
                     <dd>
                         <div class="hot_pos_l" th:each="p:${positions}">
                             <div class="mb10">
-                                <a href="h/jobs/86989.html" title="前端开发" target="_blank"><span
-                                        th:text="${p.positiontype}">前端开发</span>&nbsp;&nbsp;&nbsp;<span
+
+                                <!--<a  th:onclick= "'javascript:goShow('+${p.positionid}+');'"  target="_blank" th:title="${p.positiontype}" >-->
+                                    <!--<span-->
+                                        <!--th:text="${p.positiontype}">前端开发</span>&nbsp;&nbsp;&nbsp;<span-->
+                                        <!--th:text="${p.positionname}">java</span></a>-->
+                                <a  th:href="@{/ShowPosition(usertype=1,positionid=${p.positionid})}"  target="_blank" th:title="${p.positiontype}" >
+                                    <span
+                                            th:text="${p.positiontype}">前端开发</span>&nbsp;&nbsp;&nbsp;<span
                                         th:text="${p.positionname}">java</span></a>
                                 &nbsp;
                                 <span class="c9">[<span th:text="${p.workaddress1}">北京</span>]</span>
                             </div>
                             <span><em class="c7">月薪：</em><span th:text="${p.salary}">10k-20k</span></span>
-                            <span><em class="c7">经验：</em> <span th:text="${p.experience}">3-5年</span></span>
-                            <span><em class="c7">最低学历： </em> <span th:text="${p.education}">本科</span></span>
+                            <span><em class="c7">&nbsp;&nbsp;&nbsp;经验：</em> <span th:text="${p.experience}">3-5年</span></span>
+                            <span><em class="c7">&nbsp;&nbsp;&nbsp;最低学历： </em> <span th:text="${p.education}">本科</span></span>
                             <br/>
                             <span><em class="c7">工作属性： </em> <span th:text="${p.jobnature}">实习</span></span><br/>
                             <span><em class="c7">职位诱惑：</em><span th:text="${p.positionadvantage}">借移动医疗大势享受坐直升飞机的职场发展</span></span>

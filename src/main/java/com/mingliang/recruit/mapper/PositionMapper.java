@@ -2,6 +2,8 @@ package com.mingliang.recruit.mapper;
 
 import com.mingliang.recruit.model.Position;
 
+import java.util.List;
+
 public interface PositionMapper {
     int deleteByPrimaryKey(Integer positionid);
 
@@ -13,5 +15,9 @@ public interface PositionMapper {
 
     int updateByPrimaryKeySelective(Position record);
 
+    int updateByPrimaryKeyWithBLOBs(Position record);
+
     int updateByPrimaryKey(Position record);
+    List<Position> selectAllPositions();
+    List<Position> SearchPositionName(String PositionName);
 }

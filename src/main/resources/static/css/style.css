@@ -1091,7 +1091,7 @@ a.greylink{ color:#555;font-size:18px; margin-right:60px;text-decoration:underli
 .hotSearch dd a:hover{text-decoration:underline;}
 .breakline{height:10px; background: url(img/breakline.gif) repeat-x;margin-bottom:15px; }
 
-/*delivery.html*/
+/*delivershow.html*/
 .c_delivery{margin-bottom:40px;position:relative; background-color:#fafafa;}
 .c_delivery h1{ float:left; color:#fff; font-size:24px; font-weight:normal; height:43px; background:#91cebe; margin:-8px 0 10px 48px;/*已投递简历状态:40px;old:20px*/ padding:0 20px; line-height:43px; position: absolute; z-index:2;}
 .c_delivery h1 em{ background:url(img/title_arrow01.png) no-repeat; width:6px; height:8px; position:absolute; left:-6px; top:0;}

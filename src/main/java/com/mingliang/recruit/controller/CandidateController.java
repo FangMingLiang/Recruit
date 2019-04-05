@@ -2,9 +2,11 @@ package com.mingliang.recruit.controller;
 
 import com.mingliang.recruit.model.Candidate;
 import com.mingliang.recruit.model.Company;
+import com.mingliang.recruit.model.Position;
 import com.mingliang.recruit.service.CandidateService;
 import com.mingliang.recruit.service.impl.CandidateServiceImpl;
 import com.mingliang.recruit.service.impl.CompanyServiceImpl;
+import com.mingliang.recruit.service.impl.PositionServiceImpl;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 
@@ -29,70 +33,94 @@ public class CandidateController {
     private Candidate candidate;
     @Autowired
     private CompanyServiceImpl companyServiceImpl;
-
+    @Autowired
+    private PositionServiceImpl positionServiceImpl;
     @Autowired
     private Company company;
 
     @RequestMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
 
     @RequestMapping("/index")
-    public ModelAndView index(HttpServletRequest request,ModelAndView modelAndView){
+    public ModelAndView index(HttpServletRequest request, ModelAndView modelAndView, Model model) {
         HttpSession session = request.getSession(true);
-        if (session.getAttribute("UserID")!=null){
+        if (session.getAttribute("UserID") != null) {
+            List<Position> positionList = positionServiceImpl.SelectAllPositions();
+            model.addAttribute("positionlist", positionList);
             modelAndView.setViewName("index");
-        }else {
-            modelAndView.addObject("error","您还未登录，请登录！");
+        } else {
+            modelAndView.addObject("error", "您还未登录，请登录！");
             modelAndView.setViewName("login");
         }
         return modelAndView;
     }
+
     @RequestMapping("/register")
-    public String register(){
+    public String register() {
         return "register";
     }
 
+    @RequestMapping("/seachlist")
+    public String seachlist() {
+        return "seachlist";
+    }
+
+    @RequestMapping("/Logout")
+    public String Logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.setAttribute("UserID", null);
+        session.setAttribute("UserPassword", null);
+        return "login";
+    }
+
     @RequestMapping("/privacy")
-    public String privacy(){
+    public String privacy() {
         return "privacy";
     }
 
     @PostMapping("/RegisterResult")
-    public String register( HttpServletRequest request){
-        String type=request.getParameter("type");
+    public ModelAndView register(HttpServletRequest request, ModelAndView modelAndView) {
+        String type = request.getParameter("type");
         HttpSession session = request.getSession(true);
-        if (type.equals("0")){
-            String CandidateId=request.getParameter("email");
-            String CandidatePassword=request.getParameter("password");
-            session.setAttribute("UserID",CandidateId);
-            session.setAttribute("UserPassword",CandidatePassword);
-            return "resumepage";
-        }else{
-            String CompanyId=request.getParameter("email");
-            String CompanyPassword=request.getParameter("password");
-            session.setAttribute("UserID",CompanyId);
-            session.setAttribute("UserPassword",CompanyPassword);
-            return "CompanyInformation";
+        String UserId = request.getParameter("email");
+        String Userpassword = request.getParameter("password");
+        if (candidateServiceImpl.LoginResult(UserId) != null || companyServiceImpl.LoginResult(UserId) != null) {
+            modelAndView.addObject("error", "已存在该账号，请去登录！");
+            modelAndView.setViewName("register");
+            return modelAndView;
+        }
+        if (type.equals("0")) {
+            session.setAttribute("UserID", UserId);
+            session.setAttribute("UserPassword", Userpassword);
+            modelAndView.setViewName("resumepage");
+            return modelAndView;
+        } else {
+            session.setAttribute("UserID", UserId);
+            session.setAttribute("UserPassword", Userpassword);
+            modelAndView.setViewName("CompanyInformation");
+            return modelAndView;
         }
     }
 
     @RequestMapping("/LoginResult")
-    @ResponseBody
-    public ModelAndView  LoginResult(HttpServletRequest request, ModelAndView modelAndView) {
+//    @ResponseBody
+    public ModelAndView LoginResult(HttpServletRequest request, ModelAndView modelAndView, Model model) {
         String type = request.getParameter("type");
         String UserId = request.getParameter("email");
         String UserPassword = request.getParameter("password");
         HttpSession session = request.getSession(true);
+        session.setAttribute("usertype", type);
         try {
             if (type.equals("0")) {
-
                 candidate = candidateServiceImpl.LoginResult(UserId);
                 if (UserPassword.equals(candidate.getCandidatesPassword())) {
                     session.setAttribute("UserID", UserId);
                     session.setAttribute("UserPassword", UserPassword);
+                    List<Position> positionList = positionServiceImpl.SelectAllPositions();
+                    model.addAttribute("positionlist", positionList);
                     modelAndView.setViewName("index");
                     return modelAndView;
                 } else {
@@ -109,6 +137,13 @@ public class CandidateController {
                 }
                 if (UserPassword.equals(company.getCompanypassword())) {
                     session.setAttribute("sign", true);
+                    session.setAttribute("UserID", UserId);
+                    session.setAttribute("UserPassword", UserPassword);
+                    String CompanyId = UserId;
+                    session.setAttribute("company", companyServiceImpl.CompanyInformation(CompanyId));
+                    Company company = companyServiceImpl.CompanyPositions(CompanyId);
+                    List<Position> positions = company.getPositions();
+                    model.addAttribute("positions", positions);
                     modelAndView.setViewName("companyInformationShow");
                     return modelAndView;
                 } else {
@@ -117,13 +152,25 @@ public class CandidateController {
                     return modelAndView;
                 }
             }
-        }catch (NullPointerException e){
-            modelAndView.addObject("error","不存在该用户名！");
+        } catch (NullPointerException e) {
+            modelAndView.addObject("error", "不存在该用户名！");
             modelAndView.setViewName("login");
             return modelAndView;
         }
     }
 
+    @GetMapping("/ShowCompany")
+    public ModelAndView ShowCompany(String usertype, String companyid, ModelAndView modelAndView, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession(true);
+        session.setAttribute("usertype", usertype);
+        session.setAttribute("company", companyServiceImpl.CompanyInformation(companyid));
+        Company company = companyServiceImpl.CompanyPositions(companyid);
+        List<Position> positions = company.getPositions();
+        model.addAttribute("positions", positions);
+        modelAndView.setViewName("companyInformationShow");
+        return modelAndView;
+    }
 
 //    @PostMapping("/imageUpload")
 //    public String upload(@RequestParam("company_image") MultipartFile image,
@@ -143,6 +190,20 @@ public class CandidateController {
 //        return "success";
 //    }
 
-
+    @GetMapping("/Search")
+    public ModelAndView Search(String searchtype, String searchcontent, HttpServletRequest request, ModelAndView modelAndView, Model model) {
+        if (searchtype.equals("1"))//1：搜索职位 0：搜索公司
+        {
+            List<Position> SearchPositionList = positionServiceImpl.SearchPositionName("%" + searchcontent + "%");
+            model.addAttribute("positionlist", SearchPositionList);
+            modelAndView.addObject("SearchSign", "职位搜索");
+        } else {
+            List<Company> SearchComapnyist = companyServiceImpl.SearchCompanyName("%" + searchcontent + "%");
+            model.addAttribute("companylist", SearchComapnyist);
+            modelAndView.addObject("SearchSign", "公司搜索");
+        }
+        modelAndView.setViewName("index");
+        return modelAndView;
+    }
 }
 

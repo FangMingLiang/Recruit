@@ -203,6 +203,7 @@
       <result property="positiondetail" column="positionDetail"/>
       <result property="positionaddress" column="positionAddress"/>
       <result property="sign" column="sign"/>
+      <result property="createdate" column="createDate"/>
     </collection>
   </resultMap>
   <select id="selectpositionById" resultMap="positionMap" parameterType="java.lang.String">
@@ -215,5 +216,10 @@
         c.CompanyId=p.companyid
         and
         c.CompanyId=#{id}
+    </select>
+  <select id="SearchCompanyName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT c.*
+from company c
+where c.CompanyName like #{id}
     </select>
 </mapper>

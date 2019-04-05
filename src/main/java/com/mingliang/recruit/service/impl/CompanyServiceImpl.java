@@ -6,6 +6,8 @@ import com.mingliang.recruit.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
@@ -30,4 +32,10 @@ public class CompanyServiceImpl implements CompanyService {
     public Company CompanyPositions(String CompanyId) {
         return companyMapper.selectpositionById(CompanyId);
     }
+
+    @Override
+    public List<Company> SearchCompanyName(String CompanyName) {
+        return companyMapper.SearchCompanyName(CompanyName);
+    }
+
 }

@@ -2,6 +2,8 @@ package com.mingliang.recruit.model;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public class Position {
     private Integer positionid;
@@ -26,11 +28,14 @@ public class Position {
 
     private String positionadvantage;
 
-    private String positiondetail;
-
     private String positionaddress;
 
     private String sign;
+
+    private String createdate;
+
+    private String positiondetail;
+    private Date deliverdate;
 
     public Integer getPositionid() {
         return positionid;
@@ -120,14 +125,6 @@ public class Position {
         this.positionadvantage = positionadvantage == null ? null : positionadvantage.trim();
     }
 
-    public String getPositiondetail() {
-        return positiondetail;
-    }
-
-    public void setPositiondetail(String positiondetail) {
-        this.positiondetail = positiondetail == null ? null : positiondetail.trim();
-    }
-
     public String getPositionaddress() {
         return positionaddress;
     }
@@ -142,5 +139,29 @@ public class Position {
 
     public void setSign(String sign) {
         this.sign = sign == null ? null : sign.trim();
+    }
+
+    public String getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(String createdate) {
+        this.createdate = createdate == null ? null : createdate.trim();
+    }
+
+    public String getPositiondetail() {
+        return positiondetail;
+    }
+
+    public void setPositiondetail(String positiondetail) {
+        this.positiondetail = positiondetail == null ? null : positiondetail.trim();
+    }
+
+    public Date getDeliverdate() {
+        return deliverdate;
+    }
+
+    public void setDeliverdate(Date deliverdate) {
+        this.deliverdate = deliverdate;
     }
 }

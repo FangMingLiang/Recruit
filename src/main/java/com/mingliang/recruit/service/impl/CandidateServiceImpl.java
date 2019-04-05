@@ -24,4 +24,6 @@ public class CandidateServiceImpl implements CandidateService {
     public void Add(Candidate candidate){
         candidateMapper.insert(candidate);
     }
+
+
 }

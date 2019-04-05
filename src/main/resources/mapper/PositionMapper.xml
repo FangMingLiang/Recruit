@@ -13,18 +13,25 @@
     <result column="experience" property="experience" jdbcType="VARCHAR" />
     <result column="education" property="education" jdbcType="VARCHAR" />
     <result column="positionAdvantage" property="positionadvantage" jdbcType="VARCHAR" />
-    <result column="positionDetail" property="positiondetail" jdbcType="VARCHAR" />
     <result column="positionAddress" property="positionaddress" jdbcType="VARCHAR" />
     <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="createDate" property="createdate" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.mingliang.recruit.model.Position" extends="BaseResultMap" >
+    <result column="positionDetail" property="positiondetail" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     positionId, CompanyId, positionType, positionName, department, jobNature, salary, 
-    workAddress1, experience, education, positionAdvantage, positionDetail, positionAddress, 
-    sign
+    workAddress1, experience, education, positionAdvantage, positionAddress, sign, createDate
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <sql id="Blob_Column_List" >
+    positionDetail
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from companyposition
     where positionId = #{positionid,jdbcType=INTEGER}
   </select>
@@ -36,13 +43,15 @@
     insert into companyposition (positionId, CompanyId, positionType, 
       positionName, department, jobNature, 
       salary, workAddress1, experience, 
-      education, positionAdvantage, positionDetail, 
-      positionAddress, sign)
+      education, positionAdvantage, positionAddress, 
+      sign, createDate, positionDetail
+      )
     values (#{positionid,jdbcType=INTEGER}, #{companyid,jdbcType=VARCHAR}, #{positiontype,jdbcType=VARCHAR}, 
       #{positionname,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{jobnature,jdbcType=VARCHAR}, 
       #{salary,jdbcType=VARCHAR}, #{workaddress1,jdbcType=VARCHAR}, #{experience,jdbcType=VARCHAR}, 
-      #{education,jdbcType=VARCHAR}, #{positionadvantage,jdbcType=VARCHAR}, #{positiondetail,jdbcType=VARCHAR}, 
-      #{positionaddress,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR})
+      #{education,jdbcType=VARCHAR}, #{positionadvantage,jdbcType=VARCHAR}, #{positionaddress,jdbcType=VARCHAR}, 
+      #{sign,jdbcType=VARCHAR}, #{createdate,jdbcType=VARCHAR}, #{positiondetail,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.mingliang.recruit.model.Position" >
     insert into companyposition
@@ -80,14 +89,17 @@
       <if test="positionadvantage != null" >
         positionAdvantage,
       </if>
-      <if test="positiondetail != null" >
-        positionDetail,
-      </if>
       <if test="positionaddress != null" >
         positionAddress,
       </if>
       <if test="sign != null" >
         sign,
+      </if>
+      <if test="createdate != null" >
+        createDate,
+      </if>
+      <if test="positiondetail != null" >
+        positionDetail,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -124,14 +136,17 @@
       <if test="positionadvantage != null" >
         #{positionadvantage,jdbcType=VARCHAR},
       </if>
-      <if test="positiondetail != null" >
-        #{positiondetail,jdbcType=VARCHAR},
-      </if>
       <if test="positionaddress != null" >
         #{positionaddress,jdbcType=VARCHAR},
       </if>
       <if test="sign != null" >
         #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=VARCHAR},
+      </if>
+      <if test="positiondetail != null" >
+        #{positiondetail,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -168,16 +183,37 @@
       <if test="positionadvantage != null" >
         positionAdvantage = #{positionadvantage,jdbcType=VARCHAR},
       </if>
-      <if test="positiondetail != null" >
-        positionDetail = #{positiondetail,jdbcType=VARCHAR},
-      </if>
       <if test="positionaddress != null" >
         positionAddress = #{positionaddress,jdbcType=VARCHAR},
       </if>
       <if test="sign != null" >
         sign = #{sign,jdbcType=VARCHAR},
       </if>
+      <if test="createdate != null" >
+        createDate = #{createdate,jdbcType=VARCHAR},
+      </if>
+      <if test="positiondetail != null" >
+        positionDetail = #{positiondetail,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where positionId = #{positionid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mingliang.recruit.model.Position" >
+    update companyposition
+    set CompanyId = #{companyid,jdbcType=VARCHAR},
+      positionType = #{positiontype,jdbcType=VARCHAR},
+      positionName = #{positionname,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      jobNature = #{jobnature,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=VARCHAR},
+      workAddress1 = #{workaddress1,jdbcType=VARCHAR},
+      experience = #{experience,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      positionAdvantage = #{positionadvantage,jdbcType=VARCHAR},
+      positionAddress = #{positionaddress,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR},
+      createDate = #{createdate,jdbcType=VARCHAR},
+      positionDetail = #{positiondetail,jdbcType=LONGVARCHAR}
     where positionId = #{positionid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.mingliang.recruit.model.Position" >
@@ -192,9 +228,45 @@
       experience = #{experience,jdbcType=VARCHAR},
       education = #{education,jdbcType=VARCHAR},
       positionAdvantage = #{positionadvantage,jdbcType=VARCHAR},
-      positionDetail = #{positiondetail,jdbcType=VARCHAR},
       positionAddress = #{positionaddress,jdbcType=VARCHAR},
-      sign = #{sign,jdbcType=VARCHAR}
+      sign = #{sign,jdbcType=VARCHAR},
+      createDate = #{createdate,jdbcType=VARCHAR}
     where positionId = #{positionid,jdbcType=INTEGER}
   </update>
+  <resultMap id="positionList" type="com.mingliang.recruit.model.Position">
+    <id property="positionid" column="positionId"/>
+    <result property="companyid" column="CompanyId"/>
+    <result property="positiontype" column="positionType"/>
+    <result property="positionname" column="positionName"/>
+    <result property="department" column="department"/>
+    <result property="jobnature" column="jobNature"/>
+    <result property="salary" column="salary"/>
+    <result property="workaddress1" column="workAddress1"/>
+    <result property="experience" column="experience"/>
+    <result property="education" column="education"/>
+    <result property="positionadvantage" column="positionAdvantage"/>
+    <result property="positiondetail" column="positionDetail"/>
+    <result property="positionaddress" column="positionAddress"/>
+    <result property="sign" column="sign"/>
+    <result property="createdate" column="createDate"/>
+
+  </resultMap>
+  <select id="selectAllPositions" resultMap="positionList">
+    SELECT
+        c.*
+        FROM
+        companyposition c
+        WHERE
+        c.sign='1'
+
+  </select>
+
+
+  <select id="SearchPositionName" resultMap="positionList" parameterType="java.lang.String">
+    select c.*
+from companyposition c
+where c.positionName like #{id}
+
+  </select>
+
 </mapper>
