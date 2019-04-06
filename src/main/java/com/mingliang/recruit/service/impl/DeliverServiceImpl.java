@@ -32,4 +32,11 @@ public class DeliverServiceImpl implements DeliverService {
     public List<Deliver> FindCandidateByPositionId(int positionid, String resultsign) {
         return deliverMapper.FindCandidateByPositionId(positionid,resultsign);
     }
+
+    @Override
+    public void ChangeSign(String candidateid, String positionid, String sign) {
+        deliverMapper.ChangeSign(candidateid,positionid,sign);
+    }
+
+
 }

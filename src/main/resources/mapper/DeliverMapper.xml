@@ -135,4 +135,11 @@ WHERE
 from deliver
 where deliver.positionid=#{arg0} and deliver.resultsign=#{arg1}
     </select>
+  <update id="ChangeSign">
+    UPDATE deliver
+SET
+    resultsign=#{arg2}
+WHERE
+   candidateid = #{arg0}AND positionid = #{arg1}
+  </update>
 </mapper>

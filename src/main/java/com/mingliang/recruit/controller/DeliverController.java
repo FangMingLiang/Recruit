@@ -1,11 +1,9 @@
 package com.mingliang.recruit.controller;
 
-import com.mingliang.recruit.model.Company;
-import com.mingliang.recruit.model.Deliver;
-import com.mingliang.recruit.model.Position;
-import com.mingliang.recruit.model.Resume;
+import com.mingliang.recruit.model.*;
 import com.mingliang.recruit.service.impl.CompanyServiceImpl;
 import com.mingliang.recruit.service.impl.DeliverServiceImpl;
+import com.mingliang.recruit.service.impl.InterviewServiceImpl;
 import com.mingliang.recruit.service.impl.ResumeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +28,11 @@ public class DeliverController {
 
     @Autowired
     private Deliver deliver;
+    @Autowired
+    private InterviewServiceImpl interviewServiceImpl;
+
+    @Autowired
+    private Interview interview;
 
     @Autowired
     private ResumeServiceImpl resumeServiceImpl;
@@ -76,6 +79,47 @@ public class DeliverController {
 
     @GetMapping("/CompanyShowDelivery")
     public ModelAndView CompanyShowDelivery(String resultsign,String type,HttpServletRequest request,ModelAndView modelAndView){
+        return ShowData(resultsign,type,request,modelAndView);
+    }
+    @PostMapping("/DeliverResult")
+    public ModelAndView DeliverResult(HttpServletRequest request,ModelAndView modelAndView){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");//转换时间格式
+        HttpSession session=request.getSession(true);
+        String companyid=session.getAttribute("UserID").toString();
+        Company company=companyServiceImpl.CompanyInformation(companyid);//获取公司id
+        String companyname=company.getCompanyname();//获取公司名称
+        String candidateid=request.getParameter("candidateid");//获取求职者id
+        String positionid=request.getParameter("positionid");
+        String subject=request.getParameter("subject");//获取职位名称
+        String interTime=request.getParameter("interTime");//获取面试时间
+        String interAdd=request.getParameter("interAdd");//获取面试地点
+        String linkMan=request.getParameter("linkMan");//获取面试联系人
+        String linkPhone=request.getParameter("linkPhone");//获取面试联系人电话
+        String content=request.getParameter("content");//获取补充内容
+        interview.setCandidateid(candidateid);
+        interview.setCompanyid(companyid);
+        interview.setInterviewname(subject);
+        interview.setInterviewtime(interTime);
+        interview.setInterviewaddress(interAdd);
+        interview.setLinkman(linkMan);
+        interview.setLinkphone(linkPhone);
+        interview.setContent(content);
+        interview.setCreatetime(sdf.format(new Date()));
+        interview.setSign("0");
+        interview.setCompanyname(companyname);
+        interviewServiceImpl.AddInterview(interview);
+        deliverServiceImpl.ChangeSign(candidateid,positionid,"1");
+        return ShowData("0","resume",request,modelAndView);
+    }
+    @PostMapping("/RefuseDeliver")
+    public ModelAndView RefuseDeliver(HttpServletRequest request,ModelAndView modelAndView){
+        String candidateid=request.getParameter("refuse_candidateid");//获取求职者id
+        String positionid=request.getParameter("refuse_positionid");
+        deliverServiceImpl.ChangeSign(candidateid,positionid,"-1");
+        return ShowData("0","resume",request,modelAndView);
+    }
+    //返回简历或职位数据
+    public ModelAndView ShowData(String resultsign,String type,HttpServletRequest request,ModelAndView modelAndView){
         String messageTag="";
         int listnumber;
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//转换时间格式
@@ -95,6 +139,7 @@ public class DeliverController {
                     String deliverdate=sdf.format(DeliverCandiateIdList.get(j).getDeliverdate());
                     resume=resumeServiceImpl.ResumeResult(candidateid);
                     resume.setProjectwholedescribe(deliverdate);
+                    resume.setProjectdonselfdescribe(String.valueOf(positionid));
                     resume.setSelfappraisal(positionname);
                     ResumeList.add(resume);
                 }

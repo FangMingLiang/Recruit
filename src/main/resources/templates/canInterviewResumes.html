@@ -37,6 +37,45 @@
     </script>
     <script src="js/conv.js" type="text/javascript"></script>
     <script src="js/ajaxCross.json" charset="UTF-8"></script>
+    <script type="text/javascript">
+        function GoshowInterview(name,candidateid,positionid){
+            $("#InterviewName").text("收件人:  "+name);
+            $("#candidateid").val(candidateid);
+            $("#positionid").val(positionid);
+            $("#noticeInterview").toggle();
+            var top = ($(window).height() - $("#noticeInterview").height())/2;
+            var left = ($(window).width() - $("#noticeInterview").width())/2;
+            var scrollTop = $(document).scrollTop();
+            var scrollLeft = $(document).scrollLeft();
+            $("#noticeInterview").css( { position : 'absolute', 'top' : top + scrollTop, left : left + scrollLeft,'z-index':9999,background:'#D3D3D3'}).show();
+        };
+        function GoshowRefuse(refuse_candidateid,refuse_positionid) {
+            $("#refuse_candidateid").val(refuse_candidateid);
+            $("#refuse_positionid").val(refuse_positionid);
+            $("#confirmRefuse").toggle();
+            var top = ($(window).height() - $("#confirmRefuse").height())/2;
+            var left = ($(window).width() - $("#confirmRefuse").width())/2;
+            var scrollTop = $(document).scrollTop();
+            var scrollLeft = $(document).scrollLeft();
+            $("#confirmRefuse").css( { position : 'absolute', 'top' : top + scrollTop, left : left + scrollLeft,'z-index':9999,background:'#D3D3D3'}).show();
+        };
+        function SendInterview(candidateid){
+
+        }
+    </script>
+    <style type="text/css">
+        .lock{
+        background: #000000;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            filter:alpha(opacity=30); /*IE滤镜，透明度50%*/
+            -moz-opacity:0.3; /*Firefox私有，透明度50%*/
+            opacity:0.3;/*其他，透明度50%*/
+            z-index: 999;
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <div id="body">
@@ -104,7 +143,7 @@
                                 <i></i>
                             </label>
                             <span>全选</span>
-                            <a id="resumeRefuseAll" href="javascript:;">不合适</a>
+                            <a id="resumeRefuseAll" href="javascript:;">信息如下：</a>
                             <div id="filter_btn" class="">筛选简历 <em class=""></em></div>
                         </div><!-- end .filter_actions -->
                         <div class="filter_options  dn " style="display: none;">
@@ -185,12 +224,16 @@
 				                                       						                                        </span>
                                         </div>
                                     </div>
-                                    <div class="links">
-                                        <a data-deliverid="1686182" data-name="jason" data-positionid="149594"
-                                           data-email="888888888@qq.com" class="resume_notice"
-                                           href="javascript:void(0)">通知面试</a>
-                                        <a data-deliverid="1686182" class="resume_refuse"
-                                           href="javascript:void(0)">不合适</a>
+                                    <div class="links" th:style="'display:' + @{((${messageTag}=='待处理简历') ? 'block' : 'none')} + ''">
+                                        <a href="javascript:void(0)"  th:onclick= "GoshowInterview([[${r.name}]],[[${r.candidateid}]],[[${r.projectdonselfdescribe}]]);" >通知面试</a>
+                                        <a data-deliverid="1686182"
+                                           href="javascript:void(0)"  th:onclick= "GoshowRefuse([[${r.candidateid}]],[[${r.projectdonselfdescribe}]]);">不合适</a>
+                                        <!--<a-->
+                                            <!--class="resume_forward"-->
+                                           <!--&gt;-->
+                                            <!--转发-->
+                                            <!--<span>(1人)</span>-->
+                                        <!--</a>-->
                                         </a>
                                     </div>
                                 </div>
@@ -231,13 +274,11 @@
 				                                       						                                        </span>
                                         </div>
                                     </div>
-                                    <div class="links">
-                                        <a data-deliverid="1686182" data-name="jason" data-positionid="149594"
-                                           data-email="888888888@qq.com" class="resume_notice"
-                                           href="javascript:void(0)">下架</a>
-                                        <a data-deliverid="1686182" class="resume_refuse"
-                                           href="javascript:void(0)">发布</a>
-                                        </a>
+                                    <div class="links" th:style="'display:' + @{((${messageTag}=='有效职位') ? 'block' : 'none')} + ''">
+                                    <a >下架</a>
+                                    </div>
+                                    <div class="links" th:style="'display:' + @{((${messageTag}=='已下架职位') ? 'block' : 'none')} + ''">
+                                        <a >发布</a>
                                     </div>
                                 </div>
                             </li>
@@ -249,97 +290,8 @@
 
         <!------------------------------------- 弹窗lightbox ----------------------------------------->
         <div style="display:none;">
-            <!--通知面试弹窗-->
-            <div style="overflow:auto;" class="popup" id="noticeInterview">
-                <form id="noticeInterviewForm">
-                    <table width="100%" class="f16">
-                        <tbody>
-                        <tr>
-                            <td width="20%" align="right" class="c9">收件人</td>
-                            <td width="80%">
-                                <span class="c9" id="receiveEmail"></span>
-                                <input type="hidden" value="" name="email">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><span class="redstar">*</span>主题</td>
-                            <td>
-                                <input type="text" placeholder="公司：职位名称面试通知" name="subject">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><span class="redstar">*</span>面试时间</td>
-                            <td>
-                                <input type="text" id="datetimepicker" name="interTime" class="hasDatepicker">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><span class="redstar">*</span>面试地点</td>
-                            <td>
-                                <input type="text" name="interAdd">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">联系人</td>
-                            <td>
-                                <input type="text" name="linkMan">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><span class="redstar">*</span>联系电话</td>
-                            <td>
-                                <input type="text" name="linkPhone">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td valign="top" align="right">补充内容</td>
-                            <td>
-                                <textarea name="content"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <input type="submit" value="发送" class="btn">
-                                <a class="emailPreview" href="javascript:;">预览</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <input type="hidden" value="" name="name">
-                    <input type="hidden" value="" name="positionName">
-                    <input type="hidden" value="" name="companyName">
-                    <input type="hidden" value="" name="deliverId">
-                </form>
-            </div><!--/#noticeInterview-->
 
-            <!--预览通知面试弹窗-->
-            <div class="popup" id="noticeInterviewPreview">
-                <div class="f18">拉勾网：产品经理面试通知</div>
-                <div class="c9">发给：<span>vivi@lagou.com</span></div>
-                <div id="emailText"></div>
-                <input type="button" value="提交" class="btn fl">
-                <a title="通知面试" class="inline fl cboxElement" href="#noticeInterview">返回修改</a>
-            </div><!--/#noticeInterviewPreview-->
 
-            <!--通知面试成功弹窗-->
-            <div class="popup" id="noticeInterviewSuccess">
-                <table width="100%" class="f16">
-                    <tbody>
-                    <tr>
-                        <td align="center" class="f16">
-                            面试通知已发送成功<br>
-                            该简历已进入“已通知面试简历”列表
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center">
-                            <input type="button" value="确认" class="btn">
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div><!--/#noticeInterviewSuccess-->
 
             <!--转发简历弹窗-->
             <div class="popup" id="forwardResume">
@@ -381,75 +333,108 @@
                 </form>
             </div><!--/#forwardResume-->
 
-            <!--转发简历成功弹窗-->
-            <div class="popup" id="forwardResumeSuccess">
+
+
+        </div>
+        <!--通知面试弹窗-->
+        <div style="overflow:auto;display: none" class="popup" id="noticeInterview">
+            <form  th:action="@{/DeliverResult}" th:method="post">
                 <table width="100%" class="f16">
                     <tbody>
                     <tr>
-                        <td align="center" class="f16">简历已转发成功</td>
+                        <td width="20%" align="right" class="c9" id="InterviewName">收件人</td>
+                        <td width="80%">
+                            <span class="c9" id="receiveEmail"></span>
+                            <input type="hidden" value="" name="candidateid" id="candidateid">
+                            <input type="hidden" value="" name="positionid" id="positionid">
+                        </td>
                     </tr>
                     <tr>
-                        <td align="center">
-                            <input type="button" value="确认" class="btn">
+                        <td align="right"><span class="redstar">*</span>主题</td>
+                        <td>
+                            <input type="text" placeholder="公司：职位名称面试通知" name="subject">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="redstar">*</span>面试时间</td>
+                        <td>
+                            <input type="text" id="datetimepicker" name="interTime" class="hasDatepicker">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="redstar">*</span>面试地点</td>
+                        <td>
+                            <input type="text" name="interAdd">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">联系人</td>
+                        <td>
+                            <input type="text" name="linkMan">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="redstar">*</span>联系电话</td>
+                        <td>
+                            <input type="text" name="linkPhone">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" align="right">补充内容</td>
+                        <td>
+                            <textarea name="content"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" value="发送" class="btn" >
+                            <a class="btn" onclick="$('#noticeInterview').toggle();">取消</a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-            </div><!--/#forwardResumeSuccess-->
-
-            <!--确认不合适弹窗-->
-            <div style="height:400px;" class="popup" id="confirmRefuse">
-                <form id="refuseMailForm">
-                    <table width="100%">
-                        <tbody>
-                        <tr>
-                            <td>
-                                <div class="refuse_icon">
-                                    <h3>确认这份简历不合适吗？</h3>
-                                    <span>确认后，系统将自动发送以下内容至用户邮箱</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
+                <input type="hidden" value="" name="name">
+                <input type="hidden" value="" name="positionName">
+                <input type="hidden" value="" name="companyName">
+                <input type="hidden" value="" name="deliverId">
+            </form>
+        </div><!--/#noticeInterview-->
+        <!--确认不合适弹窗-->
+        <div style="height:400px;display: none" class="popup" id="confirmRefuse">
+            <form th:action="@{/RefuseDeliver}" th:method="post">
+                <table width="100%">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="refuse_icon">
+                                <h3>确认这份简历不合适吗？</h3>
+                                <input type="hidden" value="" name="refuse_candidateid" id="refuse_candidateid">
+                                <input type="hidden" value="" name="refuse_positionid" id="refuse_positionid">
+                                <span>确认后，系统将自动发送以下内容至用户邮箱</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
 	             		<textarea name="content">非常荣幸收到您的简历，在我们仔细阅读您的简历之后，却不得不很遗憾的通知您：
 您的简历与该职位的定位有些不匹配，因此无法进入面试。
 
 但您的信息已录入我司人才储备库，当有合适您的职位开放时我们将第一时间联系您，希望在未来我们有机会成为一起拼搏的同事；
 再次感谢您对我们的信任，祝您早日找到满意的工作。</textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="submit" value="确认不合适" class="btn">
-                                <a class="emial_cancel" href="javascript:;">取消</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <input type="hidden" value="" name="deliverId">
-                </form>
-            </div><!--/#confirmRefuse-->
-
-            <!--拒绝email成功弹窗-->
-            <div class="popup" id="refuseMailSuccess">
-                <table width="100%" class="f16">
-                    <tbody>
-                    <tr>
-                        <td align="center" class="f16">
-                            不合适通知已发送成功<br>
-                            该简历已进入“不合适简历”列表
                         </td>
                     </tr>
                     <tr>
-                        <td align="center">
-                            <input type="button" value="确认" class="btn">
+                        <td>
+                            <input type="submit" value="确认不合适" class="btn">
+                            <a class="emial_cancel" href="javascript:;" onclick="$('#confirmRefuse').toggle();">取消</a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-            </div><!--/#refuseMailSuccess-->
-        </div>
+                <input type="hidden" value="" name="deliverId">
+            </form>
+        </div><!--/#confirmRefuse-->
         <!------------------------------------- end ----------------------------------------->
         <script src="js/jquery.ui.datetimepicker.min.js" type="text/javascript"></script>
         <script src="js/received_resumes.min.js" type="text/javascript"></script>
@@ -459,6 +444,68 @@
         <input type="hidden" value="b4bc225f0d084ee5b8d045f9c98a49ff" id="resubmitToken">
         <a rel="nofollow" title="回到顶部" id="backtop"></a>
     </div><!-- end #container -->
+    <!--<div style="overflow:auto;" class="popup" id="noticeInterview">-->
+        <!--<form id="noticeInterviewForm">-->
+            <!--<table width="100%" class="f16">-->
+                <!--<tbody>-->
+                <!--<tr>-->
+                    <!--<td width="20%" align="right" class="c9">收件人</td>-->
+                    <!--<td width="80%">-->
+                        <!--<span class="c9" id="receiveEmail"></span>-->
+                        <!--<input type="hidden" value="" name="email">-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td align="right"><span class="redstar">*</span>主题</td>-->
+                    <!--<td>-->
+                        <!--<input type="text" placeholder="公司：职位名称面试通知" name="subject">-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td align="right"><span class="redstar">*</span>面试时间</td>-->
+                    <!--<td>-->
+                        <!--<input type="text" id="datetimepicker" name="interTime" class="hasDatepicker">-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td align="right"><span class="redstar">*</span>面试地点</td>-->
+                    <!--<td>-->
+                        <!--<input type="text" name="interAdd">-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td align="right">联系人</td>-->
+                    <!--<td>-->
+                        <!--<input type="text" name="linkMan">-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td align="right"><span class="redstar">*</span>联系电话</td>-->
+                    <!--<td>-->
+                        <!--<input type="text" name="linkPhone">-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td valign="top" align="right">补充内容</td>-->
+                    <!--<td>-->
+                        <!--<textarea name="content"></textarea>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td></td>-->
+                    <!--<td>-->
+                        <!--<input type="submit" value="发送" class="btn">-->
+                        <!--<a class="emailPreview" href="javascript:;">预览</a>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+            <!--</table>-->
+            <!--<input type="hidden" value="" name="name">-->
+            <!--<input type="hidden" value="" name="positionName">-->
+            <!--<input type="hidden" value="" name="companyName">-->
+            <!--<input type="hidden" value="" name="deliverId">-->
+        <!--</form>-->
+    <!--</div>&lt;!&ndash;/#noticeInterview&ndash;&gt;-->
 </div><!-- end #body -->
 <div id="footer">
     <div class="wrapper">
@@ -471,7 +518,7 @@
                 target="_blank">京ICP备14023790号-2</a></div>
     </div>
 </div>
-
+<div class="lock"></div>
 <script src="js/core.min.js" type="text/javascript"></script>
 <script src="js/popup.min.js" type="text/javascript"></script>
 
