@@ -6,6 +6,7 @@ import com.mingliang.recruit.service.impl.CandidateServiceImpl;
 import com.mingliang.recruit.service.impl.ResumeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,23 +41,24 @@ public class ResumeController {
     }
     @RequestMapping("updateResume")
     public ModelAndView updateResume(HttpServletRequest request,ModelAndView modelAndView){
-        modelAndView=ReturnResume(request,modelAndView);
+        HttpSession session=request.getSession(true);
+        String Candidateid=session.getAttribute("UserID").toString();
+        modelAndView=ReturnResume(Candidateid,"0",request,modelAndView);
         modelAndView.setViewName("resumepage");
         return modelAndView;
     }
-
-    @RequestMapping("resumeshow")
-    public ModelAndView resumeshow(HttpServletRequest request,ModelAndView modelAndView){
-        modelAndView=ReturnResume(request,modelAndView);
+    @GetMapping("/resumeshow")
+    public ModelAndView resumeshow(String CandidateId,String usertype,HttpServletRequest request,ModelAndView modelAndView){
+        modelAndView=ReturnResume(CandidateId,usertype,request,modelAndView);
         modelAndView.setViewName("resumeshow");
         return modelAndView;
     }
-    public ModelAndView ReturnResume(HttpServletRequest request,ModelAndView modelAndView){
-        HttpSession session=request.getSession();
-        String CandidateId=session.getAttribute("UserID").toString();
-        resume=resumeServiceImpl.ResumeResult(CandidateId);
+    public ModelAndView ReturnResume(String CandidateId,String usertype,HttpServletRequest request,ModelAndView modelAndView){
+
+        resume=resumeServiceImpl.ResumeResult(CandidateId);//获取用户类型
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         //基本信息
+        modelAndView.addObject("usertype",usertype);//返回姓名
         modelAndView.addObject("name",resume.getName());//返回姓名
         modelAndView.addObject("sex",resume.getSex());//返回性别
         modelAndView.addObject("portrait","/upload/"+CandidateId+"/"+resume.getPortrait());//返回头像地址
@@ -150,7 +152,7 @@ public class ResumeController {
             return modelAndView;
         }else{
             resumeServiceImpl.UpdateResume(resume);
-            modelAndView=ReturnResume(request,modelAndView);
+            modelAndView=ReturnResume(candidateid,"0",request,modelAndView);
             modelAndView.setViewName("resumeshow");
             return modelAndView;
         }

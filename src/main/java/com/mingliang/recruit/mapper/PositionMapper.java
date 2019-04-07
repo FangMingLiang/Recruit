@@ -20,4 +20,5 @@ public interface PositionMapper {
     int updateByPrimaryKey(Position record);
     List<Position> selectAllPositions();
     List<Position> SearchPositionName(String PositionName);
+
 }

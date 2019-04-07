@@ -20,7 +20,7 @@ public class DeliverServiceImpl implements DeliverService {
 
     @Override
     public List<Position> DeliverList(String CandidateId) {
-        return deliverMapper.FindDeliverList(CandidateId);
+        return deliverMapper.FindDeliverListAll(CandidateId);
     }
 
     @Override

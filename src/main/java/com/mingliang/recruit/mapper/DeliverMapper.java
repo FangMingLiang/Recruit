@@ -17,7 +17,7 @@ public interface DeliverMapper {
     int updateByPrimaryKeySelective(Deliver record);
 
     int updateByPrimaryKey(Deliver record);
-    List<Position> FindDeliverList(String CandidateId);
+    List<Position> FindDeliverListAll(String CandidateId);
     int FindDeliverStatus(String candidateId,String positionid);
     List<Deliver> FindCandidateByPositionId(int positionid,String resultsign);
     void ChangeSign(String candidateid,String positionid,String sign);

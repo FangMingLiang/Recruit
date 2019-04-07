@@ -109,7 +109,7 @@
     <result property="deliverdate" column="deliverdate"/>
 
   </resultMap>
-  <select id="FindDeliverList" resultMap="positionlist" parameterType="java.lang.String">
+  <select id="FindDeliverListAll" resultMap="positionlist" parameterType="java.lang.String">
     SELECT
 	c.*,d.deliverdate
 FROM
@@ -118,6 +118,7 @@ FROM
 WHERE
 	d.candidateid = #{id} and d.positionid=c.positionId
     </select>
+
 
   <select id="FindDeliverStatus" resultType="java.lang.Integer">
 	SELECT

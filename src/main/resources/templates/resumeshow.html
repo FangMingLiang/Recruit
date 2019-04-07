@@ -41,7 +41,7 @@
 <div id="previewWrapper">
     <div class="preview_header">
         <h1 title="简历id"th:text="${name}+的简历" th:if="${not #strings.isEmpty(name)}"></h1>
-        <a title="选择操作" class="inline cboxElement" href="#downloadOnlineResume">操作</a>
+        <a title="选择操作" class="inline cboxElement" href="#downloadOnlineResume" th:style="'display:' + @{(${usertype=='0'} ? 'block' : 'none')} + ''">操作</a>
     </div><!--end .preview_header-->
 
     <div class="preview_content">

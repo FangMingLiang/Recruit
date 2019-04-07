@@ -10,5 +10,5 @@ public interface PositionService {
     public Position PositionInformation(Integer positionid);
     public List<Position> SelectAllPositions();
     public List<Position> SearchPositionName(String PositionName);
-
+    public Boolean ChangePositionSign(Position position);
 }

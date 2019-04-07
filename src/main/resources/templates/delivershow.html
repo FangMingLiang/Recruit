@@ -48,7 +48,7 @@
             <ul class="reset" id="navheader">
                 <li class="current"><a href="index.html">首页</a></li>
                 <li><a href="companylist.html">公司</a></li>
-                <li><a href="resumeshow" rel="nofollow">我的简历</a></li>
+                <li><a  rel="nofollow" th:href="@{/resumeshow(CandidateId=${session.UserID},usertype='0')}">我的简历</a></li>
             </ul>
             <ul class="loginTop">
                 <li>欢迎</li>
@@ -84,28 +84,19 @@
                         <div class="delivery_tabs">
                             <ul class="reset">
                                 <li class="current">
-                                    <a href="delivershow.html?tag=-1">全部</a>
+                                    <a th:href="@{/ShowDelivery(CandidateId=${session.UserID},showtype='0')}">全部</a>
                                 </li>
-                                <li>
-                                    <a href="delivershow.html?tag=5">投递成功</a>
-                                </li>
-                                <li>
-                                    <a href="delivershow.html?tag=1">被查看</a>
-                                </li>
-                                <li>
-                                    <a href="delivershow.html?tag=2">通过初筛</a>
-                                </li>
-                                <li>
-                                    <a href="delivershow.html?tag=3">通知面试</a>
+                                <li >
+                                    <a th:href="@{/ShowDelivery(CandidateId=${session.UserID},showtype='1')}">通知面试</a>
                                 </li>
                                 <li class="last">
-                                    <a href="delivershow.html?tag=4">不合适</a>
+                                    <a th:href="@{/ShowDelivery(CandidateId=${session.UserID},showtype='-1')}">不合适</a>
                                 </li>
                             </ul>
                         </div>
                         <form id="deliveryForm">
                             <p th:text="${Tips}" th:if="${not #strings.isEmpty(Tips)}"></p>
-                            <ul class="reset my_delivery">
+                            <ul class="reset my_delivery" th:style="'display:'+@{((${returntype} eq 'all')? 'block' : 'none')}+ ''">
                                 <li th:each="d:${deliverList}">
                                     <div class="d_item">
                                         <h2 title="随便写">
@@ -166,6 +157,156 @@
                                             </li>
                                         </ul>
                                         <a class="btn_closeprogress" href="javascript:;"></a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="reset my_delivery" th:style="'display:'+@{((${returntype} eq 'interview')? 'block' : 'none')}+ ''">
+                                <li th:each="d:${deliverList}">
+                                    <div class="d_item">
+                                        <h2 title="随便写">
+                                            <a target="_blank" th:href="@{/ShowPosition(usertype=0,positionid=${d.positionid})}">
+                                                <em><span th:text="${d.positiontype}">职位类型</span><span th:text="${d.positionname}">职位名称</span></em>
+                                                （<span th:text="${d.salary}">1k-2k</span>）
+                                                <!--  -->
+                                            </a>
+                                        </h2>
+                                        <div class="clear"></div>
+                                        <a title="" class="d_jobname"
+                                           href="#">
+                                            <span th:text="${d.jobnature}">工作类型</span> [<span th:text="${d.positiontype}">地点</span>]
+                                        </a>
+                                        <span class="d_time" th:text="'通知时间：'+${d.createtime}">投递时间</span>
+                                        <div class="clear"></div>
+                                        <div class="d_resume">
+                                            职位诱惑：
+                                            <span th:text="${d.positionadvantage}">
+	                                    	                                        		描述
+                                        		                                    	</span>
+                                        </div>
+                                        <!--<a class="btn_showprogress" href="javascript:;">-->
+                                        <!--不合适-->
+                                        <!--<i></i></a>-->
+                                    </div>
+                                <ul>
+                                    <li class="top">
+                                        <div>面试通知如下：</div>
+                                        <div class="list_body">
+                                            <span>应聘职位名称：</span><span th:text="${d.interviewname}"></span><br>
+                                            <span>公司名称：</span><span th:text="${d.companyname}"></span><br>
+                                            <span>面试时间：</span><span th:text="${d.interviewtime}"></span><br>
+                                            <span>面试地点：</span><span th:text="${d.interviewaddress}"></span><br>
+                                            <span>联系人：</span><span th:text="${d.linkman}"></span><br>
+                                            <span>联系电话：</span><span th:text="${d.linkphone}"></span><br>
+                                            <span>补充内容：</span><span th:text="${d.content}"></span><br>
+                                        </div>
+                                    </li>
+                                </ul>
+                                    <div class="progress_status	dn">
+                                        <ul class="status_steps">
+                                            <li class="status_done status_1">1</li>
+                                            <li class="status_line status_line_done"><span></span></li>
+                                            <li class="status_done"><span>2</span></li>
+                                            <li class="status_line status_line_done"><span></span></li>
+                                            <li class="status_done"><span>3</span></li>
+                                            <li class="status_line status_line_done"><span></span></li>
+                                            <li class="status_done"><span>4</span></li>
+                                        </ul>
+                                        <ul class="status_text">
+                                            <li>投递成功</li>
+                                            <li class="status_text_2">简历被查看</li>
+                                            <li class="status_text_3">通过初步筛选</li>
+                                            <li style="margin-left: 75px;*margin-left: 60px;" class="status_text_4">
+                                                不合适
+                                            </li>
+                                        </ul>
+                                        <ul class="status_list">
+                                            <li class="top">
+                                                <div class="list_time"><em></em>2014-07-01 17:15</div>
+                                                <div class="list_body">
+                                                    简历被lixiang标记为不合适
+                                                    <div>您的简历已收到，但目前您的工作经历与该职位不是很匹配，因此很抱歉地通知您无法进入面试。</div>
+                                                </div>
+                                            </li>
+                                            <li class="bottom">
+                                                <div class="list_time"><em></em>2014-07-01 17:08</div>
+                                                <div class="list_body">
+                                                    lixiang已成功接收你的简历
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <a class="btn_closeprogress" href="javascript:;"></a>
+                                    </div>
+                                </li>
+
+                            </ul>
+                            <ul class="reset my_delivery" th:style="'display:'+@{((${returntype} eq 'refuse')? 'block' : 'none')}+ ''">
+                                <li th:each="d:${deliverList}">
+                                    <div class="d_item">
+                                        <h2 title="随便写">
+                                            <a target="_blank" th:href="@{/ShowPosition(usertype=0,positionid=${d.positionid})}">
+                                                <em><span th:text="${d.positiontype}">职位类型</span><span th:text="${d.positionname}">职位名称</span></em>
+                                                （<span th:text="${d.salary}">1k-2k</span>）
+                                                <!--  -->
+                                            </a>
+                                        </h2>
+                                        <div class="clear"></div>
+                                        <a title="" class="d_jobname"
+                                           href="#">
+                                            <span th:text="${d.jobnature}">工作类型</span> [<span th:text="${d.positiontype}">地点</span>]
+                                        </a>
+                                        <span class="d_time" th:text="${d.createdate}+'天前'">投递时间</span>
+                                        <div class="clear"></div>
+                                        <div class="d_resume">
+                                            职位诱惑：
+                                            <span th:text="${d.positionadvantage}">
+	                                    	                                        		描述
+                                        		                                    	</span>
+                                        </div>
+                                        <!--<a class="btn_showprogress" href="javascript:;">-->
+                                        <!--不合适-->
+                                        <!--<i></i></a>-->
+                                    </div>
+                                    <div class="progress_status	dn">
+                                        <ul class="status_steps">
+                                            <li class="status_done status_1">1</li>
+                                            <li class="status_line status_line_done"><span></span></li>
+                                            <li class="status_done"><span>2</span></li>
+                                            <li class="status_line status_line_done"><span></span></li>
+                                            <li class="status_done"><span>3</span></li>
+                                            <li class="status_line status_line_done"><span></span></li>
+                                            <li class="status_done"><span>4</span></li>
+                                        </ul>
+                                        <ul class="status_text">
+                                            <li>投递成功</li>
+                                            <li class="status_text_2">简历被查看</li>
+                                            <li class="status_text_3">通过初步筛选</li>
+                                            <li style="margin-left: 75px;*margin-left: 60px;" class="status_text_4">
+                                                不合适
+                                            </li>
+                                        </ul>
+                                        <ul class="status_list">
+                                            <li class="top">
+                                                <div class="list_time"><em></em>2014-07-01 17:15</div>
+                                                <div class="list_body">
+                                                    简历被lixiang标记为不合适
+                                                    <div>您的简历已收到，但目前您的工作经历与该职位不是很匹配，因此很抱歉地通知您无法进入面试。</div>
+                                                </div>
+                                            </li>
+                                            <li class="bottom">
+                                                <div class="list_time"><em></em>2014-07-01 17:08</div>
+                                                <div class="list_body">
+                                                    lixiang已成功接收你的简历
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <a class="btn_closeprogress" href="javascript:;"></a>
+                                    </div>
+                                </li>
+                                <li class="top">
+                                    <div class="list_time"><em></em>2014-07-01 17:15</div>
+                                    <div class="list_body">
+                                        您的简历被HR标记为不合适
+                                        <div>您的简历已收到，但目前您的工作经历与该职位不是很匹配，因此很抱歉地通知您无法进入面试。</div>
                                     </div>
                                 </li>
                             </ul>

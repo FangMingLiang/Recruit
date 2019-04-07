@@ -207,7 +207,7 @@
                                     <div class="resumeIntro">
                                         <h3 class="unread">
                                             <a target="_blank" title="预览jason的简历"
-                                               href="resumeView.html?deliverId=1686182" th:text="${r.name}+'的简历'">
+                                               th:href="@{/resumeshow(CandidateId=${r.candidateid},usertype='1')}" th:text="${r.name}+'的简历'">
 
                                             </a>
                                             <em></em>
@@ -257,7 +257,7 @@
                                     <div class="resumeIntro">
                                         <h3 class="unread">
                                             <a target="_blank" title="预览职位"
-                                               href="resumeView.html?deliverId=1686182" th:text="${p.positiontype}+'  '+${p.positionname}">
+                                               th:href="@{/ShowPosition(usertype=1,positionid=${p.positionid})}" th:text="${p.positiontype}+'  '+${p.positionname}">
 
                                             </a>
                                             <em></em>
@@ -275,10 +275,10 @@
                                         </div>
                                     </div>
                                     <div class="links" th:style="'display:' + @{((${messageTag}=='有效职位') ? 'block' : 'none')} + ''">
-                                    <a >下架</a>
+                                    <a th:href="@{/PositionChangeSign(positionsign=0,positionid=${p.positionid})}">下架</a>
                                     </div>
                                     <div class="links" th:style="'display:' + @{((${messageTag}=='已下架职位') ? 'block' : 'none')} + ''">
-                                        <a >发布</a>
+                                        <a th:href="@{/PositionChangeSign(positionsign=1,positionid=${p.positionid})}">发布</a>
                                     </div>
                                 </div>
                             </li>

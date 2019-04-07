@@ -32,5 +32,13 @@ public class PositionServiceImpl implements PositionService {
         return positionMapper.SearchPositionName(PositionName);
     }
 
+    @Override
+    public Boolean ChangePositionSign(Position position) {
+        if(positionMapper.updateByPrimaryKeySelective(position)>0)
+            return true;
+        else
+            return false;
+    }
+
 
 }

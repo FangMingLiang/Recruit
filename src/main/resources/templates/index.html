@@ -36,7 +36,6 @@
         function searchSubmit(){
             var searchtype=$(".type_selected").html();
             var searchcontent=$("#search_input").val();
-            alert("123");
             if(searchtype=='职位')
                 searchtype=1;
             else
@@ -56,7 +55,7 @@
             <ul class="reset" id="navheader">
                 <li class="current"><a href="index.html">首页</a></li>
                 <li><a href="companylist.html">公司</a></li>
-                <li><a href="resumeshow" rel="nofollow">我的简历</a></li>
+                <li><a  rel="nofollow" th:href="@{/resumeshow(CandidateId=${session.UserID},usertype='0')}">我的简历</a></li>
             </ul>
             <ul class="loginTop">
                 <li >欢迎</li>
@@ -70,7 +69,7 @@
                 </dt>
                 <!--<dd style="display: none;"><a rel="nofollow" href="jianli.html">我的简历</a></dd>-->
                 <!--<dd style="display: none;"><a href="collections.html">我收藏的职位</a></dd>-->
-                <dd style="display: none;"><a  th:href="@{/ShowDelivery(CandidateId=${session.UserID})}">我投递的职位 <span id="noticeNo" class="red dn">(0)</span></a></dd>
+                <dd style="display: none;"><a  th:href="@{/ShowDelivery(CandidateId=${session.UserID},showtype='0')}">我投递的职位 <span id="noticeNo" class="red dn">(0)</span></a></dd>
                 <!--<dd class="btm" style="display: none;"><a href="subscribe.html">我的订阅</a></dd>-->
                 <!--<dd style="display: none;"><a href="create.html">我要招人</a></dd>-->
                 <dd style="display: none;"><a href="accountBind.html">帐号设置</a></dd>

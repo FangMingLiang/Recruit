@@ -1,10 +1,7 @@
 package com.mingliang.recruit.controller;
 
 import com.mingliang.recruit.model.*;
-import com.mingliang.recruit.service.impl.CompanyServiceImpl;
-import com.mingliang.recruit.service.impl.DeliverServiceImpl;
-import com.mingliang.recruit.service.impl.InterviewServiceImpl;
-import com.mingliang.recruit.service.impl.ResumeServiceImpl;
+import com.mingliang.recruit.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +41,9 @@ public class DeliverController {
     private Position position;
 
     @Autowired
+    private PositionServiceImpl positionServiceImpl;
+
+    @Autowired
     private CompanyServiceImpl companyServiceImpl;
     @PostMapping("/AddDeliver")
     @ResponseBody
@@ -59,22 +59,71 @@ public class DeliverController {
         return "index";
     }
     @GetMapping ("/ShowDelivery")
-    public ModelAndView ShowDelivery(String CandidateId, ModelAndView modelAndView) throws ParseException {
-        List<Position> deliverList =deliverServiceImpl.DeliverList(CandidateId);
-        if(deliverList==null||deliverList.size()==0){
-            modelAndView.addObject("Tips","您最近一个月还没有投递过简历哦!\n" +
-                    "(*^__^*)");
+    public ModelAndView ShowDelivery(String CandidateId, String showtype,ModelAndView modelAndView) throws ParseException {
+        String returntype="";
+        if(showtype.equals("0")){
+            List<Position> deliverList =deliverServiceImpl.DeliverList(CandidateId);
+            if(deliverList==null||deliverList.size()==0){
+                modelAndView.addObject("Tips","您最近一个月还没有投递过简历哦!\n" +
+                        "(*^__^*)");
+                modelAndView.addObject("returntype",returntype);
+                modelAndView.setViewName("delivershow");
+                return modelAndView;
+            }
+            for(int i=0;i<deliverList.size();i++)
+            {
+                Date deliverdate=deliverList.get(i).getDeliverdate();
+                deliverList.get(i).setCreatedate(TransformTime(deliverdate));
+            }
+            returntype="all";
+            modelAndView.addObject("returntype",returntype);
+            modelAndView.addObject("deliverList",deliverList);
             modelAndView.setViewName("delivershow");
             return modelAndView;
         }
-        for(int i=0;i<deliverList.size();i++)
-        {
-            Date deliverdate=deliverList.get(i).getDeliverdate();
-            deliverList.get(i).setCreatedate(TransformTime(deliverdate));
+        else if(showtype.equals("1")){
+            List<Position> deliverList =interviewServiceImpl.FindDeliverListBySign(CandidateId);
+            if(deliverList==null||deliverList.size()==0){
+                modelAndView.addObject("Tips","您还没收到通知面试信息哦!\n" +
+                        "(*^__^*)");
+                modelAndView.addObject("returntype",returntype);
+                modelAndView.setViewName("delivershow");
+                return modelAndView;
+            }
+            returntype="interview";
+            modelAndView.addObject("returntype",returntype);
+            modelAndView.addObject("deliverList",deliverList);
+            modelAndView.setViewName("delivershow");
+            return modelAndView;
         }
-        modelAndView.addObject("deliverList",deliverList);
-        modelAndView.setViewName("delivershow");
-        return modelAndView;
+        else{
+            List<Position> deliverList=new ArrayList<Position>();
+            List<Position> allList =deliverServiceImpl.DeliverList(CandidateId);
+            for(int j=0;j<allList.size();j++)
+            {
+                String resultsign=allList.get(j).getSign();
+                if(resultsign.equals("-1"))
+                    deliverList.add(allList.get(j));
+            }
+            if(deliverList==null||deliverList.size()==0){
+                modelAndView.addObject("Tips","您最近还没收到不合适通知哦!\n" +
+                        "(*^__^*)");
+                modelAndView.addObject("returntype",returntype);
+                modelAndView.setViewName("delivershow");
+                return modelAndView;
+            }
+            for(int i=0;i<deliverList.size();i++)
+            {
+                Date deliverdate=deliverList.get(i).getDeliverdate();
+                deliverList.get(i).setCreatedate(TransformTime(deliverdate));
+            }
+            returntype="refuse";
+            modelAndView.addObject("returntype",returntype);
+            modelAndView.addObject("deliverList",deliverList);
+            modelAndView.setViewName("delivershow");
+            return modelAndView;//未做
+        }
+
     }
 
     @GetMapping("/CompanyShowDelivery")
@@ -97,6 +146,7 @@ public class DeliverController {
         String linkPhone=request.getParameter("linkPhone");//获取面试联系人电话
         String content=request.getParameter("content");//获取补充内容
         interview.setCandidateid(candidateid);
+        interview.setPositionid(Integer.parseInt(positionid));
         interview.setCompanyid(companyid);
         interview.setInterviewname(subject);
         interview.setInterviewtime(interTime);
@@ -117,6 +167,16 @@ public class DeliverController {
         String positionid=request.getParameter("refuse_positionid");
         deliverServiceImpl.ChangeSign(candidateid,positionid,"-1");
         return ShowData("0","resume",request,modelAndView);
+    }
+    @GetMapping("/PositionChangeSign")
+    public ModelAndView PositionChangeSign(String positionsign,String positionid,HttpServletRequest request,ModelAndView modelAndView){
+        position.setPositionid(Integer.parseInt(positionid));
+        position.setSign(positionsign);
+        positionServiceImpl.ChangePositionSign(position);
+        if(positionsign.equals("0"))
+            return ShowData("1","position",request,modelAndView);
+        else
+            return ShowData("0","position",request,modelAndView);
     }
     //返回简历或职位数据
     public ModelAndView ShowData(String resultsign,String type,HttpServletRequest request,ModelAndView modelAndView){

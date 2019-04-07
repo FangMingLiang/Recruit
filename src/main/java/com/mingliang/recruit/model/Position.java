@@ -35,7 +35,106 @@ public class Position {
     private String createdate;
 
     private String positiondetail;
-    private Date deliverdate;
+
+    private Date deliverdate;     //mapper上使用来映射的
+
+    private String createtime;//mapper上使用来映射的interview创建时间
+    private int interviewid;//mapper上使用来映射的interviewid
+
+    private String candidateid;
+
+    public String getCandidateid() {
+        return candidateid;
+    }
+
+    public void setCandidateid(String candidateid) {
+        this.candidateid = candidateid;
+    }
+
+    public String getInterviewname() {
+        return interviewname;
+    }
+
+    public void setInterviewname(String interviewname) {
+        this.interviewname = interviewname;
+    }
+
+    public String getInterviewtime() {
+        return interviewtime;
+    }
+
+    public void setInterviewtime(String interviewtime) {
+        this.interviewtime = interviewtime;
+    }
+
+    public String getInterviewaddress() {
+        return interviewaddress;
+    }
+
+    public void setInterviewaddress(String interviewaddress) {
+        this.interviewaddress = interviewaddress;
+    }
+
+    public String getLinkman() {
+        return linkman;
+    }
+
+    public void setLinkman(String linkman) {
+        this.linkman = linkman;
+    }
+
+    public String getLinkphone() {
+        return linkphone;
+    }
+
+    public void setLinkphone(String linkphone) {
+        this.linkphone = linkphone;
+    }
+
+    public String getCompanyname() {
+        return companyname;
+    }
+
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    private String interviewname;
+
+    private String interviewtime;
+
+    private String interviewaddress;
+
+    private String linkman;
+
+    private String linkphone;
+
+    private String companyname;
+
+    private String content;
+    public int getInterviewid() {
+        return interviewid;
+    }
+
+    public void setInterviewid(int interviewid) {
+        this.interviewid = interviewid;
+    }
+
+    public String getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(String createtime) {
+        this.createtime = createtime;
+    }
 
     public Integer getPositionid() {
         return positionid;
