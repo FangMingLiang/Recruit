@@ -43,14 +43,13 @@ public class CandidateController {
         return "login";
     }
 
-
-    @RequestMapping("/index")
-    public ModelAndView index(HttpServletRequest request, ModelAndView modelAndView, Model model) {
+    @RequestMapping("/userindex")
+    public ModelAndView userindex(HttpServletRequest request, ModelAndView modelAndView, Model model) {
         HttpSession session = request.getSession(true);
         if (session.getAttribute("UserID") != null) {
             List<Position> positionList = positionServiceImpl.SelectAllPositions();
             model.addAttribute("positionlist", positionList);
-            modelAndView.setViewName("index");
+            modelAndView.setViewName("userindex");
         } else {
             modelAndView.addObject("error", "您还未登录，请登录！");
             modelAndView.setViewName("login");
@@ -87,6 +86,7 @@ public class CandidateController {
         HttpSession session = request.getSession(true);
         String UserId = request.getParameter("email");
         String Userpassword = request.getParameter("password");
+
         if (candidateServiceImpl.LoginResult(UserId) != null || companyServiceImpl.LoginResult(UserId) != null) {
             modelAndView.addObject("error", "已存在该账号，请去登录！");
             modelAndView.setViewName("register");
@@ -116,12 +116,17 @@ public class CandidateController {
         try {
             if (type.equals("0")) {
                 candidate = candidateServiceImpl.LoginResult(UserId);
+                if(candidate.getSign().equals("0")){
+                    modelAndView.addObject("error", "你被禁止登录！");
+                    modelAndView.setViewName("login");
+                    return modelAndView;
+                }
                 if (UserPassword.equals(candidate.getCandidatesPassword())) {
                     session.setAttribute("UserID", UserId);
                     session.setAttribute("UserPassword", UserPassword);
                     List<Position> positionList = positionServiceImpl.SelectAllPositions();
                     model.addAttribute("positionlist", positionList);
-                    modelAndView.setViewName("index");
+                    modelAndView.setViewName("userindex");
                     return modelAndView;
                 } else {
                     modelAndView.addObject("error", "求职者的用户名或密码错误，请重新输入！");
@@ -202,7 +207,7 @@ public class CandidateController {
             model.addAttribute("companylist", SearchComapnyist);
             modelAndView.addObject("SearchSign", "公司搜索");
         }
-        modelAndView.setViewName("index");
+        modelAndView.setViewName("userindex");
         return modelAndView;
     }
 }

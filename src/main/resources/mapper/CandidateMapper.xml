@@ -4,9 +4,11 @@
   <resultMap id="BaseResultMap" type="com.mingliang.recruit.model.Candidate" >
     <id column="Candidate_Id" property="candidateId" jdbcType="VARCHAR" />
     <result column="Candidates_Password" property="candidatesPassword" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    Candidate_Id, Candidates_Password
+    Candidate_Id, Candidates_Password, sign, createdate
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -19,8 +21,10 @@
     where Candidate_Id = #{candidateId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.mingliang.recruit.model.Candidate" >
-    insert into candidate (Candidate_Id, Candidates_Password)
-    values (#{candidateId,jdbcType=VARCHAR}, #{candidatesPassword,jdbcType=VARCHAR})
+    insert into candidate (Candidate_Id, Candidates_Password, 
+      sign, createdate)
+    values (#{candidateId,jdbcType=VARCHAR}, #{candidatesPassword,jdbcType=VARCHAR}, 
+      #{sign,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.mingliang.recruit.model.Candidate" >
     insert into candidate
@@ -31,6 +35,12 @@
       <if test="candidatesPassword != null" >
         Candidates_Password,
       </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+      <if test="createdate != null" >
+        createdate,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="candidateId != null" >
@@ -38,6 +48,12 @@
       </if>
       <if test="candidatesPassword != null" >
         #{candidatesPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -47,12 +63,25 @@
       <if test="candidatesPassword != null" >
         Candidates_Password = #{candidatesPassword,jdbcType=VARCHAR},
       </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        createdate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where Candidate_Id = #{candidateId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.mingliang.recruit.model.Candidate" >
     update candidate
-    set Candidates_Password = #{candidatesPassword,jdbcType=VARCHAR}
+    set Candidates_Password = #{candidatesPassword,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR},
+      createdate = #{createdate,jdbcType=TIMESTAMP}
     where Candidate_Id = #{candidateId,jdbcType=VARCHAR}
   </update>
+  <select id="FindAllCandidates" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select c.*
+from candidate c
+where c.sign=#{id}
+  </select>
 </mapper>

@@ -120,6 +120,8 @@ public class ResumeController {
         String selfappraisal = request.getParameter("companyProfile");//自我评价
         candidate.setCandidateId(candidateid);
         candidate.setCandidatesPassword(CandidatePassword);
+        candidate.setSign("1");
+        candidate.setCreatedate(new Date());
         resume.setCandidateid(candidateid);
         resume.setName(name);
         resume.setSex(sex);

@@ -6,7 +6,8 @@ import com.mingliang.recruit.model.Candidate;
 import com.mingliang.recruit.service.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 
 @Service
@@ -23,6 +24,11 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public void Add(Candidate candidate){
         candidateMapper.insert(candidate);
+    }
+
+    @Override
+    public List<Candidate> FindAllCandidates(String sign) {
+        return candidateMapper.FindAllCandidates(sign);
     }
 
 
