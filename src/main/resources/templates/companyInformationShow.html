@@ -61,13 +61,13 @@
 </head>
 <body>
 <div id="body">
-    <div id="header" th:style="'display:' + @{((${session.usertype}eq '0') ? 'none' : 'block')} + ''">
+    <div id="header" th:style="'display:' + @{((${session.usertype}eq '1') ? 'block' : 'none')} + ''">
         <div class="wrapper">
             <a class="logo" href="">
                 <img width="229" height="43" alt="拉勾招聘-专注互联网招聘" src="/images/logo.png">
             </a>
             <ul id="navheader" class="reset">
-                <li class="current"><a href="">公司</a></li>
+                <li class="current"><a href="companyInformationShow">公司</a></li>
                 <li>
                     <a rel="nofollow"  th:href="@{/CompanyShowDelivery(resultsign=0,type='resume')}">查收职位简历</a>
                 </li>

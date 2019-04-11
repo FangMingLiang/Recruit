@@ -34,8 +34,33 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public void UpdateCompany(Company company) {
+        companyMapper.updateByPrimaryKeySelective(company);
+    }
+
+    @Override
     public List<Company> SearchCompanyName(String CompanyName) {
         return companyMapper.SearchCompanyName(CompanyName);
+    }
+
+    @Override
+    public List<Company> SearchCompanyListBySign(String CheckSign,String ForbidSign) {
+        return companyMapper.SearchCompanyListBySign(CheckSign,ForbidSign);
+    }
+
+    @Override
+    public List<Company> SearchCompanyListByCheckSign(String sign) {
+        return companyMapper.SearchCompanyListByCheckSign(sign);
+    }
+
+    @Override
+    public void ChangeForbidSign(Company company) {
+        companyMapper.updateByPrimaryKeySelective(company);
+    }
+
+    @Override
+    public void DeleteCompany(String CompanyId) {
+        companyMapper.deleteByPrimaryKey(CompanyId);
     }
 
 }

@@ -17,7 +17,17 @@ public class ForbidUserServiceImpl implements ForbidUserService {
     }
 
     @Override
-    public List<ForbidUser> FindForbidUsersList() {
-        return null;
+    public List<ForbidUser> FindForbidUsersListByUsertype(String usertype) {
+        return forbidUserMapper.FindForbidUsersListByUsertype(usertype);
+    }
+
+    @Override
+    public void DeleteForbidUser(String Userid) {
+        forbidUserMapper.deleteForbidUserByUserid(Userid);
+    }
+
+    @Override
+    public List<ForbidUser> SearchList(String Searchid, String Usertype) {
+        return forbidUserMapper.SearchList(Searchid,Usertype);
     }
 }

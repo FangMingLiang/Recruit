@@ -3,26 +3,18 @@ package com.mingliang.recruit.controller;
 import com.mingliang.recruit.model.Candidate;
 import com.mingliang.recruit.model.Company;
 import com.mingliang.recruit.model.Position;
-import com.mingliang.recruit.service.CandidateService;
 import com.mingliang.recruit.service.impl.CandidateServiceImpl;
 import com.mingliang.recruit.service.impl.CompanyServiceImpl;
 import com.mingliang.recruit.service.impl.PositionServiceImpl;
-import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.*;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 
 @Controller
@@ -166,7 +158,6 @@ public class CandidateController {
 
     @GetMapping("/ShowCompany")
     public ModelAndView ShowCompany(String usertype, String companyid, ModelAndView modelAndView, Model model, HttpServletRequest request) {
-
         HttpSession session = request.getSession(true);
         session.setAttribute("usertype", usertype);
         session.setAttribute("company", companyServiceImpl.CompanyInformation(companyid));

@@ -91,12 +91,12 @@
     <div class="menu_dropdown bk_2">
 
         <dl id="menu-product">
-            <dt><i class="Hui-iconfont">&#xe620;</i> 产品管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dt><i class="Hui-iconfont">&#xe620;</i> 企业管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a href="product-brand.html" title="品牌管理">品牌管理</a></li>
-                    <li><a href="product-category.html" title="分类管理">分类管理</a></li>
-                    <li><a href="product-list.html" title="产品管理">产品管理</a></li>
+                    <li><a th:href="@{/companylist(sign='-1')}" title="产品管理">审核列表</a></li>
+                    <li><a th:href="@{/companylist(sign='1')}" title="企业列表">企业列表</a></li>
+                    <li><a th:href="@{/companylist(sign='0')}" title="被封号的企业">封号列表</a></li>
                 </ul>
             </dd>
         </dl>
@@ -110,17 +110,12 @@
             </dd>
         </dl>
         <dl id="menu-member">
-            <dt><i class="Hui-iconfont">&#xe60d;</i> 会员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dt><i class="Hui-iconfont">&#xe60d;</i> 求职者管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a th:href="@{/memberlist(sign='1')}" title="求职者列表">求职者列表</a>
+                    <li><a th:href="@{/memberlist(sign='1',usertype='0')}" title="求职者列表" class="hover">求职者列表</a>
                     </li>
-                    <li><a th:href="@{/memberlist(sign='0')}" title="封号的求职者">封号的求职者</a></li>
-                    <li><a href="member-level.html" title="等级管理">等级管理</a></li>
-                    <li><a href="member-scoreoperation.html" title="积分管理">积分管理</a></li>
-                    <li><a href="member-record-browse.html" title="浏览记录">浏览记录</a></li>
-                    <li><a href="member-record-download.html" title="下载记录">下载记录</a></li>
-                    <li><a href="member-record-share.html" title="分享记录">分享记录</a></li>
+                    <li><a th:href="@{/memberlist(sign='0',usertype='0')}" title="封号的求职者" class="hover">封号列表</a></li>
                 </ul>
             </dd>
         </dl>
@@ -134,8 +129,6 @@
                 </ul>
             </dd>
         </dl>
-
-
     </div>
 </aside>
 <div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a>

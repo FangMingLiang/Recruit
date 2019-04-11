@@ -31,5 +31,15 @@ public class CandidateServiceImpl implements CandidateService {
         return candidateMapper.FindAllCandidates(sign);
     }
 
+    @Override
+    public void Change(Candidate candidate) {
+        candidateMapper.updateByPrimaryKeySelective(candidate);
+    }
+
+    @Override
+    public List<Candidate> SearchList(String Candidateid, String Sign) {
+        return candidateMapper.SearchList(Candidateid,Sign);
+    }
+
 
 }

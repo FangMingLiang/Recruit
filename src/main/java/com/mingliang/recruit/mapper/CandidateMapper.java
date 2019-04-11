@@ -18,4 +18,6 @@ public interface CandidateMapper {
     int updateByPrimaryKey(Candidate record);
 
     List<Candidate> FindAllCandidates(String sign);//查找符合标记的全部的求职者list
+
+    List<Candidate> SearchList(String searchcandidateid,String sign);
 }

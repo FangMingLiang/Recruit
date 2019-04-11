@@ -84,4 +84,9 @@
 from candidate c
 where c.sign=#{id}
   </select>
+  <select id="SearchList" resultMap="BaseResultMap" >
+    SELECT *
+from candidate
+where candidate.Candidate_Id like #{arg0} and candidate.sign=#{arg1}
+  </select>
 </mapper>

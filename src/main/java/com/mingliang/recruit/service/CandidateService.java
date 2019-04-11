@@ -8,4 +8,6 @@ public interface CandidateService {
     public Candidate LoginResult(String CandidateId);
     public void Add(Candidate candidate);
     public List<Candidate> FindAllCandidates(String sign);
+    public void Change(Candidate candidate);
+    public List<Candidate> SearchList(String Candidateid,String Sign);
 }

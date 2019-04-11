@@ -31,7 +31,14 @@ public class Company {
 
     private Boolean checksign;
 
+    private String forbidsign;
     private List<Position> positions;
+    public List<Position> getPositions() {
+        return positions;
+    }
+    public void setPositions(List<Position> positions) {
+        this.positions = positions;
+    }
     public String getCompanyid() {
         return companyid;
     }
@@ -128,11 +135,11 @@ public class Company {
         this.checksign = checksign;
     }
 
-    public List<Position> getPositions() {
-        return positions;
+    public String getForbidsign() {
+        return forbidsign;
     }
 
-    public void setPositions(List<Position> positions) {
-        this.positions = positions;
+    public void setForbidsign(String forbidsign) {
+        this.forbidsign = forbidsign == null ? null : forbidsign.trim();
     }
 }

@@ -14,10 +14,12 @@
     <result column="CompanyProfile" property="companyprofile" jdbcType="VARCHAR" />
     <result column="EstablishDate" property="establishdate" jdbcType="TIMESTAMP" />
     <result column="CheckSign" property="checksign" jdbcType="BIT" />
+    <result column="ForbidSign" property="forbidsign" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     CompanyId, CompanyPassword, CompanyName, CompanyLogo, CompanyLicense, CompanyWebsite, 
-    CompanyCity, CompanyIndustry, CompanyScale, CompanyProfile, EstablishDate, CheckSign
+    CompanyCity, CompanyIndustry, CompanyScale, CompanyProfile, EstablishDate, CheckSign, 
+    ForbidSign
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -33,13 +35,13 @@
     insert into company (CompanyId, CompanyPassword, CompanyName, 
       CompanyLogo, CompanyLicense, CompanyWebsite, 
       CompanyCity, CompanyIndustry, CompanyScale, 
-      CompanyProfile, EstablishDate, CheckSign
-      )
+      CompanyProfile, EstablishDate, CheckSign, 
+      ForbidSign)
     values (#{companyid,jdbcType=VARCHAR}, #{companypassword,jdbcType=VARCHAR}, #{companyname,jdbcType=VARCHAR}, 
       #{companylogo,jdbcType=VARCHAR}, #{companylicense,jdbcType=VARCHAR}, #{companywebsite,jdbcType=VARCHAR}, 
       #{companycity,jdbcType=VARCHAR}, #{companyindustry,jdbcType=VARCHAR}, #{companyscale,jdbcType=VARCHAR}, 
-      #{companyprofile,jdbcType=VARCHAR}, #{establishdate,jdbcType=TIMESTAMP}, #{checksign,jdbcType=BIT}
-      )
+      #{companyprofile,jdbcType=VARCHAR}, #{establishdate,jdbcType=TIMESTAMP}, #{checksign,jdbcType=BIT}, 
+      #{forbidsign,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mingliang.recruit.model.Company" >
     insert into company
@@ -80,6 +82,9 @@
       <if test="checksign != null" >
         CheckSign,
       </if>
+      <if test="forbidsign != null" >
+        ForbidSign,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="companyid != null" >
@@ -117,6 +122,9 @@
       </if>
       <if test="checksign != null" >
         #{checksign,jdbcType=BIT},
+      </if>
+      <if test="forbidsign != null" >
+        #{forbidsign,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -156,6 +164,9 @@
       <if test="checksign != null" >
         CheckSign = #{checksign,jdbcType=BIT},
       </if>
+      <if test="forbidsign != null" >
+        ForbidSign = #{forbidsign,jdbcType=VARCHAR},
+      </if>
     </set>
     where CompanyId = #{companyid,jdbcType=VARCHAR}
   </update>
@@ -171,7 +182,8 @@
       CompanyScale = #{companyscale,jdbcType=VARCHAR},
       CompanyProfile = #{companyprofile,jdbcType=VARCHAR},
       EstablishDate = #{establishdate,jdbcType=TIMESTAMP},
-      CheckSign = #{checksign,jdbcType=BIT}
+      CheckSign = #{checksign,jdbcType=BIT},
+      ForbidSign = #{forbidsign,jdbcType=VARCHAR}
     where CompanyId = #{companyid,jdbcType=VARCHAR}
   </update>
   <!--property为pojo的属性，column是数据库属性-->
@@ -222,4 +234,12 @@
 from company c
 where c.CompanyName like #{id}
     </select>
+  <select id="SearchCompanyListBySign" resultMap="BaseResultMap" >
+    SELECT * FROM company
+where CheckSign=#{arg0} and ForbidSign=#{arg1}
+    </select>
+  <select id="SearchCompanyListByCheckSign" resultMap="BaseResultMap" parameterType="java.lang.String">
+   SELECT * FROM company where CheckSign=#{id}
+    </select>
+
 </mapper>

@@ -17,5 +17,9 @@ public interface CompanyMapper {
 
     int updateByPrimaryKey(Company record);
     Company selectpositionById(String companyid);
-    List<Company> SearchCompanyName(String companyName);
+
+    List<Company> SearchCompanyName(String companyName);//根据公司名称模糊查找
+    List<Company> SearchCompanyListBySign(String CheckSign,String ForbidSign);//根据标记查找list
+
+    List<Company> SearchCompanyListByCheckSign(String sign);//根据审核标记查找list
 }
