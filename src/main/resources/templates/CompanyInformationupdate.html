@@ -74,6 +74,7 @@
         function companylicense(e) {
 //获取目标文件
 
+			alert($("#select_industry").val());
             var fileDom=document.getElementById('companyLicense');
             var img=document.getElementById('preview_companyLicense');
             if(fileDom&&img){
@@ -99,16 +100,14 @@
 			height:auto;
 		}
 		.min{
-			text-align: left;
 			width:100px;
 			height:auto;
-			display: block;
 		}
 	</style>
 	<script src="/js/ajaxCross.json" charset="UTF-8"></script></head>
 <body>
 <div id="body">
-	<div style="margin-left:300px;margin-top:30px"> <span style="font-size: 45px;color: black;">ML招聘</span><span style="color: red;text-indent:4em;"> 提示：信息填写完后需等待管理员审核通过后才能登录系统！</span></div>
+	<div style="margin-left:300px;margin-top:30px"> <span style="font-size: 45px;color: black;">ML招聘</span><span style="color: red;text-indent:4em;" th:text="${message}"> 提示：信息填写完后需等待管理员审核通过后才能登录系统！</span></div>
 	<div id="container">
 		<div class="content_mid">
 
@@ -117,28 +116,29 @@
 					<h2><em></em>填写公司信息</h2>
 				</dt>
 				<dd>
-					<form id="CompanyInformationForm" enctype="multipart/form-data" method="post" action="/CompanyInformationResult">
+					<form id="CompanyInformationForm" enctype="multipart/form-data" method="post" action="/CompanyInformationUpdateResult">
 						<div class="c_text_1">基本信息为必填项，是求职者加速了解公司的窗口，认真填写吧！</div>
 
 						<h3>公司简称</h3> <!--非必填-->
-						<input type="text" placeholder="请输入公司名称" value="" name="name" id="name" class="valid" >
+						<input type="text" placeholder="请输入公司名称" value="" name="name" id="name" class="valid" th:value="${company.companyname}">
 						<h3>公司LOGO</h3>
 						上传公司Logo<input type="file" id="companyLogo" name="companyLogo" alt="上传Logo图片" onchange="showphoto(this)"/>
 						<img id="img_preview"  class="min" data-holder-rendered="true"
-							 style="width: 100px; display: block;" >
+							 style="width: 100px; display: block;" th:src="@{${company.companylogo}}">
 						<h3>公司的营业执照证明</h3>
-						上传营业执照证明<input type="file" id="companyLicense" name="companyLicense" onchange="companylicense(this)" alt="上传营业执照证明" />
-						<img id="preview_companyLicense" class="min"  data-holder-rendered="true">
+						上传营业执照证明<input type="file" id="companyLicense" name="companyLicense" onchange="companylicense(this)" alt="上传营业执照证明" th:text="${company.companylicense}"/>
+						<img id="preview_companyLicense" class="min"  data-holder-rendered="true"
+							  th:src="@{${company.companylicense}}">
 						<h3>公司网址</h3>
-						<input type="text" placeholder="请输入公司网址" value="" name="website" id="website" >
+						<input type="text" placeholder="请输入公司网址" value="" name="website" id="website" th:value="${company.companywebsite}">
 
 						<h3>所在城市</h3>
-						<input type="text" placeholder="请输入工作城市，如：北京" name="city" id="city" >
+						<input type="text" placeholder="请输入工作城市，如：北京" name="city" id="city" th:value="${company.companycity}">
 
 						<h3>行业领域</h3>
 						<div>
 							<input type="hidden" value="" name="select_industry_hidden" id="select_industry_hidden" >
-							<input type="button" value="请选择行业领域" name="select_industry" id="select_industry" class="select" >
+							<input type="button" value="请选择行业领域" name="select_industry" id="select_industry" class="select" th:value="${company.companyindustry}">
 							<div class="dn" id="box_industry" style="display: none;">
 								<ul class="reset">
 									<li>移动互联网</li>
@@ -173,7 +173,7 @@
 						<h3>公司规模</h3>
 						<div>
 							<input type="hidden" value="" name="select_scale_hidden" id="select_scale_hidden" >
-							<input type="button" value="请选择公司规模" id="select_scale" class="select" >
+							<input type="button" value="请选择公司规模" id="select_scale" class="select" th:value="${company.companyscale}">
 							<div class="dn" id="box_scale" style="display: none;">
 								<ul class="reset">
 									<li>少于15人</li>
@@ -188,7 +188,7 @@
 
 						<h3>公司介绍</h3>
 						<div>
-							<textarea placeholder="请分段详细描述公司简介、企业文化等" name="companyProfile" id="companyProfile" ></textarea>
+							<textarea placeholder="请分段详细描述公司简介、企业文化等" name="companyProfile" id="companyProfile" th:text="${company.companyprofile}"></textarea>
 						</div>
 						<span style="display:none;" class="error" id="beError"></span>
 						<input type="hidden" id="companyId" name="companyId" value="25927">
@@ -291,17 +291,11 @@
 				name:{
                     required:true
 				},
-                companyLogo:{
-                    required:true
-                },
                 website:{
                     required:true,
                     url:true
                 },
                 city:{
-                    required:true
-                },
-                companyLicense:{
                     required:true
                 },
                 select_industry:{

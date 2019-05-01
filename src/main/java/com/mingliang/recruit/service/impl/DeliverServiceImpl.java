@@ -38,5 +38,10 @@ public class DeliverServiceImpl implements DeliverService {
         deliverMapper.ChangeSign(candidateid,positionid,sign);
     }
 
+    @Override
+    public String returnResultsign(String candidateid, int positionid) {
+        return deliverMapper.returnResultsign(candidateid,positionid);
+    }
+
 
 }

@@ -143,4 +143,8 @@ SET
 WHERE
    candidateid = #{arg0}AND positionid = #{arg1}
   </update>
+  <select id="returnResultsign" resultType="java.lang.String">
+    SELECT deliver.resultsign FROM deliver
+WHERE deliver.candidateid=#{arg0} and deliver.positionid=#{arg1}
+  </select>
 </mapper>

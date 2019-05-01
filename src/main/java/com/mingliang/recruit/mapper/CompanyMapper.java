@@ -22,4 +22,7 @@ public interface CompanyMapper {
     List<Company> SearchCompanyListBySign(String CheckSign,String ForbidSign);//根据标记查找list
 
     List<Company> SearchCompanyListByCheckSign(String sign);//根据审核标记查找list
+
+    List<Company> SearchCheckBtnByCompanyId(String companyid);//根据companyid模糊查找SearchForbidSignBtnByCompanyId
+    List<Company> SearchForbidSignBtnByCompanyId(String companyid,String forbidSign);//根据封号状态查找companyid模糊查找
 }

@@ -57,13 +57,13 @@
             		</span>
                 <div class="m_portrait">
                     <div></div>
-                    <img width="120" height="120" alt="jason"  th:src="${company.companylogo}" th:if="${not #strings.isEmpty(company.companylogo)}">
+                    <img width="120" height="120" alt="jason"  th:src="@{/upload/{companyid}/{filename}(companyid=${company.companyid},filename=${company.companylogo})}" th:if="${not #strings.isEmpty(company.companylogo)}">
 
                 </div>
             </div><!--end .basicShow-->
             <div>
                 <p>公司的营业执照证件：</p>
-                <img  alt="图片加载失败"  th:src="${company.companylicense}" th:if="${not #strings.isEmpty(company.companylicense)}">
+                <img  alt="图片加载失败" th:src="@{/upload/{companyid}/{filename}(companyid=${company.companyid},filename=${company.companylicense})}" th:if="${not #strings.isEmpty(company.companylicense)}">
 
             </div>
         </div><!--end #basicInfo-->

@@ -21,4 +21,5 @@ public interface DeliverMapper {
     int FindDeliverStatus(String candidateId,String positionid);
     List<Deliver> FindCandidateByPositionId(int positionid,String resultsign);
     void ChangeSign(String candidateid,String positionid,String sign);
+    String returnResultsign(String candidateid, int positionid);
 }

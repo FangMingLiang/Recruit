@@ -127,6 +127,12 @@ public class CandidateController {
                 }
             } else {
                 company = companyServiceImpl.LoginResult(UserId);
+                if(company.getForbidsign().equals("0"))
+                {
+                    modelAndView.addObject("error", "该企业被禁止登录！");
+                    modelAndView.setViewName("login");
+                    return modelAndView;
+                }
                 if (company.getChecksign() == false) {
                     modelAndView.addObject("error", "企业认证还未通过，请耐心等待审核，审核通过才能登录！");
                     modelAndView.setViewName("login");
@@ -138,9 +144,9 @@ public class CandidateController {
                     session.setAttribute("UserPassword", UserPassword);
                     String CompanyId = UserId;
                     session.setAttribute("company", companyServiceImpl.CompanyInformation(CompanyId));
-                    Company company = companyServiceImpl.CompanyPositions(CompanyId);
-                    List<Position> positions = company.getPositions();
-                    model.addAttribute("positions", positions);
+//                    Company company = companyServiceImpl.CompanyPositions(CompanyId);
+//                    List<Position> positions = company.getPositions();
+//                    model.addAttribute("positions", positions);
                     modelAndView.setViewName("companyInformationShow");
                     return modelAndView;
                 } else {

@@ -11,4 +11,5 @@ public interface DeliverService {
     public int DeliverStatus(String candidateId,String positionId);
     public List<Deliver> FindCandidateByPositionId(int positionid,String resultsign);
     public void ChangeSign(String candidateid,String positionid,String sign);
+    public String returnResultsign(String candidateid,int positionid);
 }

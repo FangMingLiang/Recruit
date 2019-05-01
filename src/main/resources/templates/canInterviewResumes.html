@@ -104,9 +104,9 @@
     </div><!-- end #header -->
     <div id="container">
         <div class="sidebar">
-            <a class="btn_create" href="create.html">发布新职位</a>
+            <a class="btn_create" th:href="create">发布新职位</a>
             <dl class="company_center_aside">
-                <dt>我收到的简历</dt>
+                <dt>收到的简历</dt>
                 <dd class="current">
                     <a th:href="@{/CompanyShowDelivery(resultsign=0,type='resume')}">待处理简历</a>
                 </dd>
@@ -119,7 +119,7 @@
                 </dd>
             </dl>
             <dl class="company_center_aside">
-                <dt>我发布的职位</dt>
+                <dt>发布的职位</dt>
                 <dd>
                     <a th:href="@{/CompanyShowDelivery(resultsign=1,type='position')}">有效职位</a>
                 </dd>
@@ -411,7 +411,7 @@
                                 <h3>确认这份简历不合适吗？</h3>
                                 <input type="hidden" value="" name="refuse_candidateid" id="refuse_candidateid">
                                 <input type="hidden" value="" name="refuse_positionid" id="refuse_positionid">
-                                <span>确认后，系统将自动发送以下内容至用户邮箱</span>
+                                <!--<span>确认后，系统将自动发送以下内容至用户邮箱</span>-->
                             </div>
                         </td>
                     </tr>

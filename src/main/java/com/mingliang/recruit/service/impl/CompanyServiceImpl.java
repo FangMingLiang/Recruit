@@ -63,4 +63,14 @@ public class CompanyServiceImpl implements CompanyService {
         companyMapper.deleteByPrimaryKey(CompanyId);
     }
 
+    @Override
+    public List<Company> SearchCheckBtnByCompanyId(String CompanyId) {
+        return companyMapper.SearchCheckBtnByCompanyId(CompanyId);
+    }
+
+    @Override
+    public List<Company> SearchForbidSignBtnByCompanyId(String CompanyId, String ForbidSign) {
+        return companyMapper.SearchForbidSignBtnByCompanyId(CompanyId,ForbidSign);
+    }
+
 }

@@ -20,5 +20,8 @@ public interface CompanyService {
 
     public void DeleteCompany(String CompanyId);
 
+    public List<Company> SearchCheckBtnByCompanyId(String CompanyId);//审核模糊搜索
+
+    public List<Company> SearchForbidSignBtnByCompanyId(String CompanyId,String ForbidSign);//状态模糊搜索
 
 }

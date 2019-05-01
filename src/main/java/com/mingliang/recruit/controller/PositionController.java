@@ -35,7 +35,8 @@ public class PositionController {
     private Deliver deliver;
     @PostMapping("CreatePosition")
     public String CreatePosition(HttpServletRequest request) {
-        String CompanyId = "1234567890";
+        HttpSession session=request.getSession(true);
+        String CompanyId = session.getAttribute("UserID").toString();
         String positionType = request.getParameter("positionType");//获取职位类别
         String positionName = request.getParameter("positionName");//获取职位名称
         String department = request.getParameter("department");//获取所属部门

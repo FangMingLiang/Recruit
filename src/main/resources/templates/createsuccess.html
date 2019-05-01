@@ -51,44 +51,36 @@
 <div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; overflow: auto;"></div>
 <iframe frameborder="0" style="display: none;" src="http://v3.jiathis.com/code_mini/jiathis_utility.html"></iframe>
 <div id="body">
-    <div id="header">
+    <div id="header" th:style="'display:' + @{((${session.usertype}eq '1') ? 'block' : 'none')} + ''">
         <div class="wrapper">
-            <a class="logo" href="userindex.html">
+            <a class="logo" href="">
                 <img width="229" height="43" alt="拉勾招聘-专注互联网招聘" src="/images/logo.png">
             </a>
             <ul id="navheader" class="reset">
-                <li><a href="userindex.html">首页</a></li>
-                <li><a th:href="CompanyInformationShow">公司</a></li>
-                <li><a target="_blank" href="">论坛</a></li>
-                <li><a rel="nofollow" href="jianli.html">我的简历</a></li>
+                <li class="current"><a href="companyInformationShow">公司</a></li>
+                <li>
+                    <a rel="nofollow"  th:href="@{/CompanyShowDelivery(resultsign=0,type='resume')}">查收职位简历</a>
+                </li>
+                <li><a rel="nofollow" href="create">发布职位</a></li>
             </ul>
             <dl class="collapsible_menu">
                 <dt>
-                    <span>jason&nbsp;</span>
-                    <span class="red dn" id="noticeDot-0"></span>
+                    <span th:text="${session.UserID}">jason&nbsp;</span>
+                    <span class="red dn" id="noticeDot-1"></span>
                     <i></i>
                 </dt>
-                <dd><a rel="nofollow" href="jianli.html">我的简历</a></dd>
-                <dd><a href="collections.html">我收藏的职位</a></dd>
-                <dd class="btm"><a href="subscribe.html">我的订阅</a></dd>
-                <dd><a href="create.html">我要招人</a></dd>
-                <dd><a href="accountBind.html">帐号设置</a></dd>
-                <dd class="logout"><a rel="nofollow" href="login.html">退出</a></dd>
+
+                <dd><a th:href="@{/companyinformationUpdate(companyid=${session.UserID})}">公司信息编辑</a></dd>
+                <dd class="logout"><a rel="nofollow" href="Logout">退出</a></dd>
             </dl>
-            <div class="dn" id="noticeTip">
-                <span class="bot"></span>
-                <span class="top"></span>
-                <a target="_blank" href="#"><strong>0</strong>条新投递反馈</a>
-                <a class="closeNT" href="javascript:;"></a>
-            </div>
         </div>
     </div><!-- end #header -->
     <div id="container">
 
         <div class="sidebar">
-            <a class="btn_create" href="create.html">发布新职位</a>
+            <a class="btn_create" th:href="create">发布新职位</a>
             <dl class="company_center_aside">
-                <dt>我收到的简历</dt>
+                <dt>收到的简历</dt>
                 <dd class="current">
                     <a th:href="@{/CompanyShowDelivery(resultsign=0,type='resume')}">待处理简历</a>
                 </dd>
@@ -101,7 +93,7 @@
                 </dd>
             </dl>
             <dl class="company_center_aside">
-                <dt>我发布的职位</dt>
+                <dt>发布的职位</dt>
                 <dd>
                     <a th:href="@{/CompanyShowDelivery(resultsign=1,type='position')}">有效职位</a>
                 </dd>
@@ -119,35 +111,13 @@
                     </h1>
                 </dt>
                 <dd>
-                    <div class="ccc_tr">今日已发布 <span>1</span> 个职位 还可发布 <span>4</span> 个职位</div>
+
                     <div class="publish_tip">
                         <h2>恭喜你，职位发布成功！</h2>
-                        <a target="_blank" href="">预览职位</a><br>
-                        <a class="greylink" href="create.html">继续发布新职位</a><br>
-                        <a class="greylink" href="http://www.lagou.com/c/25927.html"> 进入我的公司主页</a><br>
-                        <div style="float:left;" class="invite_share">
-                            <!-- JiaThis Button BEGIN -->
-                            <div class="jiathis_style_32x32">
-                                <a class="jiathis_button_tsina" title="分享到新浪微博"><span
-                                        class="jiathis_txt jiathis_separator jtico jtico_tsina">分享到新浪微博</span></a>
-                            </div>
-                            <!-- JiaThis Button END -->
-                        </div>
+                        <a class="greylink" href="create">继续发布新职位</a><br>
+
                     </div>
-                    <div class="weixin weixinSuc">
-                        <div class="qr">
-                            <img width="110" height="110" src="/images/d1f91afa15eb451eaef4d14dcb3b54ec_318969.jpg">
-                            <div>[仅限本人使用]</div>
-                        </div>
-                        <div class="qr_text">
-                            <h3>关注微信服务号，可随时获取接收简历的通知 </h3>
-                            关注方式：<br>
-                            <span>打开微信 </span> <img width="30" height="30" src="/images/wx1.png"><span> →发现 </span> <img
-                                width="31" height="30" src="/images/wx2.png"><span> →扫一扫左侧二维码</span><img width="78"
-                                                                                                         height="29"
-                                                                                                         src="/images/wx3.png">
-                        </div>
-                    </div>
+
                 </dd>
             </dl>
         </div><!-- end .content -->

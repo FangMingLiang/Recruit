@@ -241,5 +241,10 @@ where CheckSign=#{arg0} and ForbidSign=#{arg1}
   <select id="SearchCompanyListByCheckSign" resultMap="BaseResultMap" parameterType="java.lang.String">
    SELECT * FROM company where CheckSign=#{id}
     </select>
-
+  <select id="SearchCheckBtnByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.String">
+SELECT * FROM company where CompanyId like #{id} and CheckSign ='0'
+  </select>
+  <select id="SearchForbidSignBtnByCompanyId" resultMap="BaseResultMap">
+SELECT * FROM company where CompanyId like #{arg0} and CheckSign ='1' and ForbidSign=#{arg1}
+  </select>
 </mapper>

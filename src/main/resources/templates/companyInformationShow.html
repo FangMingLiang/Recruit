@@ -80,6 +80,7 @@
                     <i></i>
                 </dt>
                 <dd><a href="accountBind.html">帐号设置</a></dd>
+                <dd><a th:href="@{/companyinformationUpdate(companyid=${session.UserID})}">公司信息编辑</a></dd>
                 <dd class="logout"><a rel="nofollow" href="Logout">退出</a></dd>
             </dl>
         </div>
@@ -91,11 +92,11 @@
             <div class="content_l">
                 <div class="c_detail">
                     <div style="background-color:#fff;" class="c_logo">
-                        <a title="上传公司LOGO" id="logoShow" class="inline cboxElement" href="#logoUploader">
+                        <a title="上传公司LOGO" id="logoShow" class="inline cboxElement">
                             <img width="190" height="190" alt="公司logo"
-                                 th:src="@{'/upload/'+${session.company.companyid}+'/'+${session.company.companylogo}}">
+                                     th:src="@{/upload/{companyid}/{filename}(companyid=${session.company.companyid},filename=${session.company.companylogo})}">
 
-                            <span>更换公司图片<br>190px*190px 小于5M</span>
+
                         </a>
                     </div>
 
@@ -114,7 +115,7 @@
 
                         <em class="unvalid"></em>
                         <span class="va dn" style="display: none;">拉勾未认证企业</span>
-                        <a target="_blank" class="applyC" href="http://www.lagou.com/c/auth.html">申请认证</a>
+                        <a target="_blank" class="applyC" >认证成功</a>
                         <div class="clear"></div>
 
                         <h1 title="公司名称" class="fullname" th:text="${session.company.companyname}"></h1>
@@ -134,7 +135,7 @@
 
                         <div class="clear oneword" style="display: block;"><img width="17" height="15"
                                                                                 th:src="@{'/upload/'+${session.company.companyid}+'/'+${session.company.companylogo}}">&nbsp;
-                            <span>公司名称公司名称公司名称</span> &nbsp;<img width="17" height="15" src="/images/quote_r.png">
+                            <!--<span>公司名称公司名称公司名称</span> &nbsp;<img width="17" height="15" src="/images/quote_r.png">-->
                         </div>
                         <div class="dn" id="addLabels">
                             <a id="changeLabels" class="change" href="javascript:void(0)">换一换</a>
@@ -147,8 +148,8 @@
                             <a id="cancelLabels" class="btn_cancel_s" href="javascript:void(0)">取消</a>
                         </div>
                     </div>
-                    <a title="编辑基本信息" class="c_edit" id="editCompanyDetail" href="javascript:void(0);"
-                       style="display: block;"></a>
+                    <!--<a title="编辑基本信息" class="c_edit" id="editCompanyDetail" href="javascript:void(0);"-->
+                       <!--style="display: block;"></a>-->
                     <div class="clear"></div>
                 </div>
 
@@ -192,7 +193,7 @@
                             </dt>
                             <dd>
                                 <div class="c_intro"><span th:text="${session.company.companyprofile}"></span></div>
-                                <a title="编辑公司介绍" id="editIntro" class="c_edit" href="javascript:void(0)"></a>
+                                <!--<a title="编辑公司介绍" id="editIntro" class="c_edit" href="javascript:void(0)"></a>-->
                             </dd>
                         </dl>
                     </div>
@@ -200,11 +201,11 @@
                 </div><!-- end #Profile -->
 
                 <!--[if IE 7]> <br/> <![endif]-->
-
+                <div th:style="'display:' + @{(${usertype=='2'} ? 'block' : 'none')} + ''"><button  href="/CompanyShowDelivery?resultsign=0&type=resume">查看职位信息</button></div>
                 <!--无招聘职位-->
                 <dl id="noJobs" class="c_section">
                     <dt>
-                        <h2><em></em>发布过的职位</h2>
+                        <h2 th:text="${message}" th:if="${not #strings.isEmpty(message)}"><em></em>发布过的职位</h2>
                     </dt>
                     <dd>
                         <div class="hot_pos_l" th:each="p:${positions}">
@@ -263,7 +264,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <a id="editTags" class="c_edit" href="javascript:void(0)"></a>
+                        <!--<a id="editTags" class="c_edit" href="javascript:void(0)"></a>-->
                     </div>
                     <div id="c_tags_edit" class="c_tags editTags dn" style="display: none;">
                         <form id="tagForms">

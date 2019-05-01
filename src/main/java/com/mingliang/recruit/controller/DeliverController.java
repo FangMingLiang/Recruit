@@ -101,7 +101,8 @@ public class DeliverController {
             List<Position> allList =deliverServiceImpl.DeliverList(CandidateId);
             for(int j=0;j<allList.size();j++)
             {
-                String resultsign=allList.get(j).getSign();
+                int positionid=allList.get(j).getPositionid();
+                String resultsign=deliverServiceImpl.returnResultsign(CandidateId,positionid);
                 if(resultsign.equals("-1"))
                     deliverList.add(allList.get(j));
             }
@@ -123,7 +124,6 @@ public class DeliverController {
             modelAndView.setViewName("delivershow");
             return modelAndView;//未做
         }
-
     }
 
     @GetMapping("/CompanyShowDelivery")
